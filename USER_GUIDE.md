@@ -2,6 +2,10 @@
 
 Guide complet d'installation, de configuration et d'utilisation pour l'extension Firefox **OVH Email Shield**.
 
+<p align="center">
+  <strong>🇫🇷 Version française</strong> • <a href="./USER_GUIDE.en.md">🇬🇧 English version</a>
+</p>
+
 ---
 
 ## Sommaire

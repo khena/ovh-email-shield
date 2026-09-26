@@ -4,6 +4,10 @@
   <p><strong>Extension Firefox pour générer des alias emails jetables via votre propre domaine OVHcloud.</strong></p>
 
   <p>
+    <strong>🇫🇷 Version française</strong> • <a href="./README.en.md">🇬🇧 English version</a>
+  </p>
+
+  <p>
     <a href="https://www.mozilla.org/firefox/"><img src="https://img.shields.io/badge/Firefox-Manifest%20V3-orange?logo=firefox" alt="Firefox MV3"></a>
     <a href="./tests/"><img src="https://img.shields.io/badge/tests-34%20passing-brightgreen?logo=node.js" alt="Tests"></a>
     <a href="./USER_GUIDE.md"><img src="https://img.shields.io/badge/documentation-Mode%20d'emploi-blue" alt="Mode d'emploi"></a>

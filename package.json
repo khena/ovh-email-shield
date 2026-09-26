@@ -25,5 +25,20 @@
   "license": "MPL-2.0",
   "devDependencies": {
     "web-ext": "^10.7.0"
+  },
+  "webExt": {
+    "ignoreFiles": [
+      "conductor",
+      "conductor/**",
+      "tests",
+      "tests/**",
+      "GEMINI.md",
+      "*.md",
+      "package.json",
+      "package-lock.json"
+    ],
+    "build": {
+      "overwriteDest": true
+    }
   }
 }
