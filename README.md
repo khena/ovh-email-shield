@@ -8,6 +8,7 @@
     <a href="./tests/"><img src="https://img.shields.io/badge/tests-34%20passing-brightgreen?logo=node.js" alt="Tests"></a>
     <a href="./USER_GUIDE.md"><img src="https://img.shields.io/badge/documentation-Mode%20d'emploi-blue" alt="Mode d'emploi"></a>
     <img src="https://img.shields.io/badge/télémétrie-zéro-success" alt="Zéro télémétrie">
+    <img src="https://img.shields.io/badge/développé%20avec-Google%20Gemini-8e44ad?logo=google" alt="Développé avec Google Gemini">
     <a href="./LICENSE"><img src="https://img.shields.io/badge/licence-MPL--2.0-blue.svg" alt="Licence"></a>
   </p>
 </div>
@@ -139,13 +140,13 @@ Structure Vanilla ES Modules sans bundling complexe :
 │       ├── alias.js           # Générateur de suffixes aléatoires et formateur
 │       ├── dom-autofill.js    # Utilitaires d'injection DOM compatibles React/Vue
 │       └── storage.js         # Couche d'accès asynchrone à browser.storage.local
-├── tests/                     # Suite de tests unitaires native Node.js (27 tests)
+├── tests/                     # Suite de tests unitaires native Node.js (34 tests)
 │   ├── ovh.test.js
 │   ├── storage.test.js
 │   ├── alias.test.js
 │   └── autofill.test.js
-├── conductor/                 # Suivi de spécifications et pistes de développement
 ├── USER_GUIDE.md              # Mode d'emploi pas-à-pas pour l'utilisateur final
+├── LICENSE                    # Licence Mozilla Public License 2.0
 └── package.json
 ```
 
@@ -160,10 +161,25 @@ npm test
 ```
 
 Résultats :
-- ✅ **Alias Generator :** formatage, entropie, suffixes aléatoires.
+- ✅ **Alias Generator :** formatage, entropie, suffixes aléatoires, gestion des tags de site `[site]`.
 - ✅ **DOM Autofill :** injection réactive, prototype setter, `contenteditable`.
-- ✅ **OvhClient :** calcul de signature SHA-1, delta d'horloge `/auth/time`, gestion des erreurs HTTP, requêtes GET/POST/DELETE.
-- ✅ **Storage Helpers :** lecture, écriture, historique plafonné à 50 entrées, suppression ciblée.
+- ✅ **OvhClient :** calcul de signature SHA-1, delta d'horloge `/auth/time`, gestion des erreurs HTTP, requêtes GET/POST/DELETE avec repli dynamique d'identifiant.
+- ✅ **Storage Helpers :** lecture, écriture, historique plafonné à 50 entrées, mise à jour de statut, suppression ciblée.
+
+---
+
+## 🤖 Transparence & Développement (AI-Assisted)
+
+Par souci de transparence envers la communauté et les éventuels contributeurs :
+
+Ce projet a été conçu, architecturé et développé avec l'assistance de **Google Gemini** (via Gemini CLI).
+
+L'ensemble du code répond aux principes d'ingénierie suivants :
+- **Architecture 100 % native :** Vanilla ES Modules sans bundling opaque, utilisation de l'API standard Web Cryptography native pour les signatures SHA-1.
+- **Rigueur & Couverture de tests :** Chaque composant critique (calcul des signatures OVH, synchronisation du drift d'horloge, génération anti-collision, injection réactive dans les formulaires et suppression résiliente) est couvert par une suite de **34 tests unitaires automatisés** exécutables directement avec `node --test`.
+- **Audit de sécurité :** Zéro télémétrie, aucune transmission de secrets ou de données vers des serveurs tiers.
+
+Les contributions humaines, retours d'expérience, revues de code et signalements de bugs sont chaleureusement bienvenus via les *Issues* et *Pull Requests* !
 
 ---
 
