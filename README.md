@@ -81,23 +81,45 @@ Pour un tutoriel détaillé étape par étape (création des clés API sur OVH, 
 4. Sélectionnez le fichier `manifest.json` à la racine du projet.
 5. L'icône de bouclier apparaît dans votre barre d'outils !
 
-### Option B : Environnement Développeur (Hot Reload)
+### Option B : Environnement Développeur
+
 ```bash
 # 1. Cloner et installer les dépendances
 npm install
 
-# 2. Lancer Firefox avec rechargement automatique
+# 2. Lancer Firefox avec rechargement automatique (hot-reload)
 npm start
 
-# 3. Lancer la suite de tests unitaires
+# 3. Lancer la suite de tests unitaires (34 tests natifs)
 npm test
 
 # 4. Vérifier la conformité du code et du manifest
 npm run lint
 
-# 5. Compiler l'archive de production (.zip distribuable)
+# 5. Compiler l'archive de production optimisée (zip épuré de 25 Ko)
 npm run build
+
+# 6. Synchroniser / incrémenter la version (package.json + manifest.json)
+npm run bump 1.0.2    # ou npm version patch
 ```
+
+### 📦 Workflow de Release (GitHub Action)
+
+Le projet intègre un pipeline CI/CD automatisé (`.github/workflows/release.yml`) :
+
+```bash
+# 1. Incrémenter la version
+npm run bump 1.0.2
+
+# 2. Commiter et créer le tag Git
+git commit -am "chore: release v1.0.2"
+git tag v1.0.2
+
+# 3. Pousser vers GitHub
+git push origin main --tags
+```
+
+Le workflow GitHub teste le code, exécute le linter, compile l'archive et publie automatiquement la **GitHub Release** avec le `.zip` joint en téléchargement direct.
 
 ---
 

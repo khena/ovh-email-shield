@@ -12,7 +12,9 @@
     "test": "node --test",
     "start": "web-ext run",
     "lint": "web-ext lint",
-    "build": "web-ext build --overwrite-dest"
+    "build": "web-ext build --overwrite-dest",
+    "bump": "node scripts/bump-version.js",
+    "postversion": "node scripts/bump-version.js && git add manifest.json"
   },
   "keywords": [
     "firefox",
@@ -28,6 +30,10 @@
   },
   "webExt": {
     "ignoreFiles": [
+      ".github",
+      ".github/**",
+      "scripts",
+      "scripts/**",
       "conductor",
       "conductor/**",
       "tests",

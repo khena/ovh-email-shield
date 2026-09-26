@@ -81,23 +81,45 @@ For a step-by-step tutorial (creating your OVH API keys, configuring minimal RES
 4. Select the `manifest.json` file in the project root directory.
 5. The shield icon will appear in your Firefox toolbar!
 
-### Option B: Developer Workflow (Hot Reload)
+### Option B: Developer Environment
+
 ```bash
 # 1. Install dev tooling
 npm install
 
-# 2. Launch Firefox with automatic extension reload
+# 2. Launch Firefox with automatic extension reload (hot-reload)
 npm start
 
-# 3. Run the automated test suite
+# 3. Run the automated test suite (34 native unit tests)
 npm test
 
-# 4. Check manifest and code compliance
+# 4. Check manifest and code compliance (0 errors, 0 warnings)
 npm run lint
 
-# 5. Build production zip archive
+# 5. Build production zip archive (clean 25 KB bundle)
 npm run build
+
+# 6. Synchronize / bump version (package.json + manifest.json)
+npm run bump 1.0.2    # or npm version patch
 ```
+
+### 📦 Release Workflow (GitHub Action)
+
+The project includes an automated CI/CD pipeline (`.github/workflows/release.yml`):
+
+```bash
+# 1. Bump version
+npm run bump 1.0.2
+
+# 2. Commit and create Git tag
+git commit -am "chore: release v1.0.2"
+git tag v1.0.2
+
+# 3. Push to GitHub
+git push origin main --tags
+```
+
+The GitHub workflow tests the code, runs the linter, builds the package, and automatically creates a new **GitHub Release** with the `.zip` attached for direct download.
 
 ---
 
