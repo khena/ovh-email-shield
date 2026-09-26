@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OVH Email Shield</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo-group">
+        <img src="/icons/icon.svg" width="28" height="28" alt="Logo" class="logo-icon">
+        <div>
+          <h1 class="title">Email Shield</h1>
+          <span class="subtitle" id="active-domain-badge">Non configuré</span>
+        </div>
+      </div>
+      <button id="btn-open-options" class="icon-btn" title="Paramètres OVH" aria-label="Paramètres OVH">
+        ⚙️
+      </button>
+    </header>
+
+    <div id="unconfigured-warning" class="banner warning hidden">
+      <span>⚠️ Identifiants OVH manquants.</span>
+      <button id="btn-go-options" class="btn-link">Configurer</button>
+    </div>
+
+    <section class="action-card">
+      <button id="btn-generate" class="btn-primary">
+        <span class="btn-icon">🛡️</span>
+        <span class="btn-text">Générer un alias</span>
+      </button>
+
+      <div id="result-box" class="result-box hidden">
+        <label class="field-label" for="generated-email-input">Nouvel alias créé :</label>
+        <div class="input-group">
+          <input type="text" id="generated-email-input" readonly aria-label="Alias généré">
+          <button id="btn-copy-result" class="btn-secondary" title="Copier" aria-label="Copier l'alias">📋</button>
+        </div>
+        <div class="result-actions">
+          <button id="btn-insert-page" class="btn-small">Insérer dans la page</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="history-section">
+      <div class="section-header">
+        <h2>Derniers alias créés</h2>
+        <span id="history-count" class="count-badge">0</span>
+      </div>
+      <div id="history-list" class="history-list">
+        <div class="empty-state">Aucun alias récent</div>
+      </div>
+    </section>
+
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

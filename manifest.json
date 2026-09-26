@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "OVH Email Shield",
+  "version": "1.0.0",
+  "description": "Générez des alias email aléatoires redirigés via votre compte OVHcloud pour contrer l'usurpation et le spam.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "ovh-email-shield@local",
+      "strict_min_version": "115.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "activeTab",
+    "scripting",
+    "clipboardWrite"
+  ],
+  "host_permissions": [
+    "https://eu.api.ovh.com/*",
+    "https://ca.api.ovh.com/*"
+  ],
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_title": "OVH Email Shield",
+    "default_icon": {
+      "48": "icons/icon.svg",
+      "96": "icons/icon.svg"
+    }
+  },
+  "options_ui": {
+    "page": "src/options/options.html",
+    "open_in_tab": true
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/content/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "scripts": ["src/background/background.js"],
+    "type": "module"
+  },
+  "icons": {
+    "48": "icons/icon.svg",
+    "96": "icons/icon.svg"
+  }
+}

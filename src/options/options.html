@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuration - OVH Email Shield</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo-group">
+        <img src="../../icons/icon.svg" alt="Logo" class="logo-icon">
+        <div>
+          <h1>Paramètres OVH Email Shield</h1>
+          <p class="subtitle">Configurez vos accès API OVHcloud pour activer la génération automatique d'alias.</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid-layout">
+      <!-- Formulaire principal -->
+      <main class="card">
+        <h2>Identifiants API OVH</h2>
+        <form id="config-form">
+          <div class="form-group">
+            <label for="endpoint">Région OVH</label>
+            <select id="endpoint">
+              <option value="ovh-eu">Europe (eu.api.ovh.com)</option>
+              <option value="ovh-ca">Canada / USA (ca.api.ovh.com)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="appKey">Application Key (AK)</label>
+            <input type="text" id="appKey" placeholder="Ex: 5a7b8c..." required autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label for="appSecret">Application Secret (AS)</label>
+            <input type="password" id="appSecret" placeholder="Ex: 8f9e0d..." required autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label for="consumerKey">Consumer Key (CK)</label>
+            <input type="password" id="consumerKey" placeholder="Ex: 1a2b3c..." required autocomplete="off">
+          </div>
+
+          <hr class="separator">
+
+          <h2>Paramètres de Redirection</h2>
+
+          <div class="form-group">
+            <label for="domain">Domaine OVH</label>
+            <input type="text" id="domain" placeholder="Ex: mondomaine.fr" required>
+            <small class="helper-text">Le domaine hébergé chez OVH sur lequel créer les alias.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="destinationEmail">Adresse email de destination</label>
+            <input type="email" id="destinationEmail" placeholder="Ex: mon-adresse-secrete@gmail.com" required>
+            <small class="helper-text">Votre vraie boîte mail recevant les courriers transférés.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="prefixPattern">Modèle de préfixe</label>
+            <input type="text" id="prefixPattern" placeholder="shield.[site]-[rand]" value="shield.[site]-[rand]">
+            <small class="helper-text">Variables : <code>[site]</code> pour le site web visité, <code>[rand]</code> pour 6 caractères aléatoires (ex: <code>shield-[rand]</code> si vous ne voulez pas inclure le site).</small>
+          </div>
+
+          <div class="button-group">
+            <button type="button" id="btn-test" class="btn-secondary">Tester la connexion</button>
+            <button type="submit" id="btn-save" class="btn-primary">Enregistrer</button>
+          </div>
+        </form>
+
+        <div id="status-message" class="status-box hidden"></div>
+      </main>
+
+      <!-- Panneau d'aide & guide création de clés OVH -->
+      <aside class="card guide-card">
+        <h2>Guide : Créer vos clés API OVH</h2>
+        <p>Pour autoriser l'extension à ajouter des redirections sans exposer votre mot de passe OVH principal :</p>
+        
+        <ol class="guide-steps">
+          <li>
+            Rendez-vous sur le générateur de clés OVH :
+            <br>
+            <a href="https://eu.api.ovh.com/createToken/" target="_blank" rel="noopener noreferrer" class="link-external">
+              Ouvrir OVH createToken ↗
+            </a>
+          </li>
+          <li>
+            Définissez un nom d'application (ex: <code>Firefox-Email-Shield</code>).
+          </li>
+          <li>
+            Ajoutez les droits REST minimaux suivants :
+            <pre class="code-block">GET  /auth/*
+GET  /email/domain/*
+POST /email/domain/*
+DELETE /email/domain/*</pre>
+          </li>
+          <li>
+            Validez et copiez l'<b>Application Key</b>, l'<b>Application Secret</b> et la <b>Consumer Key</b>.
+          </li>
+        </ol>
+
+        <div class="security-note">
+          🔒 <strong>Sécurité :</strong> Vos clés sont stockées localement dans votre profil Firefox (<code>browser.storage.local</code>) et ne transitent jamais par aucun serveur tiers.
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script type="module" src="options.js"></script>
+</body>
+</html>
