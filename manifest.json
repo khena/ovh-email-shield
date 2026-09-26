@@ -5,7 +5,7 @@
   "description": "Générez des alias email aléatoires redirigés via votre compte OVHcloud pour contrer l'usurpation et le spam.",
   "browser_specific_settings": {
     "gecko": {
-      "id": "ovh-email-shield@local",
+      "id": "ovh-email-shield@khena",
       "strict_min_version": "115.0",
       "data_collection_permissions": {
         "required": ["none"]
