@@ -6,6 +6,8 @@ import { OvhClient } from '../lib/ovh.js';
 import { generateUniqueAliasAddress, extractSiteTag } from '../lib/alias.js';
 import { getMessage } from '../lib/i18n.js';
 
+const browser = globalThis.browser || globalThis.chrome;
+
 // Setup Context Menu for input fields
 browser.runtime.onInstalled.addListener(() => {
   browser.contextMenus.create({

@@ -326,7 +326,7 @@
     "description": "Security label in note"
   },
   "securityText": {
-    "message": "Your keys are stored locally in your Firefox profile (browser.storage.local) and are never sent to any third-party server.",
+    "message": "Your keys are stored locally in your browser (storage.local) and are never sent to any third-party server.",
     "description": "Security explanation in note"
   },
   "errorInvalidEmail": {

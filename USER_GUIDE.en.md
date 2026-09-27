@@ -1,6 +1,6 @@
 # 📖 User Guide - OVH Email Shield
 
-Complete installation, configuration, and user manual for the **OVH Email Shield** Firefox extension.
+Complete installation, configuration, and user manual for the **OVH Email Shield** cross-browser (Firefox & Chrome) extension.
 
 <p align="center">
   <a href="./USER_GUIDE.md">🇫🇷 Version française</a> • <strong>🇬🇧 English version</strong>
@@ -13,7 +13,7 @@ Complete installation, configuration, and user manual for the **OVH Email Shield
 2. [Important Warnings & Use Cases](#2-important-warnings--use-cases)
 3. [Prerequisites with OVHcloud](#3-prerequisites-with-ovhcloud)
 4. [Generating your OVH API Keys (Step-by-Step)](#4-generating-your-ovh-api-keys-step-by-step)
-5. [Configuring the Extension](#5-configuring-the-extension)
+5. [Installation & Configuration](#5-installation--configuration)
 6. [Daily Usage](#6-daily-usage)
    - [Method 1: Right-click in a form field (Recommended)](#method-1-right-click-in-a-form-field-recommended)
    - [Method 2: From the toolbar popup](#method-2-from-the-toolbar-popup)
@@ -71,8 +71,8 @@ For security, never use your main OVH account password. The extension uses scope
    - **Canada / USA:** [https://ca.api.ovh.com/createToken/](https://ca.api.ovh.com/createToken/)
 2. Log in with your OVH client ID (e.g., `xx12345-ovh`).
 3. Fill in the form:
-   - **Application name:** `Firefox OVH Email Shield`
-   - **Application description:** `Email alias generator and forwarding tool for Firefox`
+   - **Application name:** `OVH Email Shield`
+   - **Application description:** `Email alias generator and forwarding tool for web browsers`
    - **Validity:** Select `Unlimited` so keys do not expire, or your desired duration.
 4. **Define Minimal Access Rights:**
    Click to add the following 4 rules:
@@ -94,9 +94,25 @@ For security, never use your main OVH account password. The extension uses scope
 
 ---
 
-## 5. Configuring the Extension
+## 5. Installation & Configuration
 
-1. In Firefox, click the **OVH Email Shield** icon in your toolbar.
+### Step 1: Install the extension in your browser
+
+- **For Mozilla Firefox:**
+  1. Open `about:debugging#/runtime/this-firefox`.
+  2. Click **"Load Temporary Add-on..."**.
+  3. Select `manifest.json` at the root of the project or `dist/firefox/manifest.json`.
+
+- **For Google Chrome / Chromium (Brave, Edge, Vivaldi):**
+  1. Generate distribution packages with `npm run build` (or `npm run build:chrome`).
+  2. Open `chrome://extensions` (or `brave://extensions`).
+  3. Enable **"Developer mode"** in the top-right corner.
+  4. Click **"Load unpacked"**.
+  5. Select the `dist/chrome/` folder.
+
+### Step 2: Configure OVH Credentials
+
+1. Click the **OVH Email Shield** icon in your browser toolbar.
 2. Click the gear icon **⚙️** or the **Configure** link.
 3. On the options page:
    - **Region:** Select `Europe` or `Canada / USA` depending on your account.

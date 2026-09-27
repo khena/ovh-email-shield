@@ -6,6 +6,8 @@ export const STORAGE_KEYS = {
   HISTORY: 'alias_history',
 };
 
+const getStorageApi = () => (globalThis.browser || globalThis.chrome)?.storage?.local;
+
 let mutationQueue = Promise.resolve();
 
 /**
@@ -20,7 +22,7 @@ function withMutationLock(fn) {
 }
 
 export async function getConfig() {
-  const data = await browser.storage.local.get(STORAGE_KEYS.CONFIG);
+  const data = await getStorageApi().get(STORAGE_KEYS.CONFIG);
   const stored = data[STORAGE_KEYS.CONFIG] || {};
   return {
     endpoint: 'ovh-eu',
@@ -36,12 +38,12 @@ export async function getConfig() {
 
 export function saveConfig(config) {
   return withMutationLock(async () => {
-    await browser.storage.local.set({ [STORAGE_KEYS.CONFIG]: config });
+    await getStorageApi().set({ [STORAGE_KEYS.CONFIG]: config });
   });
 }
 
 export async function getHistory() {
-  const data = await browser.storage.local.get(STORAGE_KEYS.HISTORY);
+  const data = await getStorageApi().get(STORAGE_KEYS.HISTORY);
   return data[STORAGE_KEYS.HISTORY] || [];
 }
 
@@ -51,7 +53,7 @@ export function addHistoryEntry(entry) {
     history.unshift(entry);
     // Keep max 50 items
     const trimmed = history.slice(0, 50);
-    await browser.storage.local.set({ [STORAGE_KEYS.HISTORY]: trimmed });
+    await getStorageApi().set({ [STORAGE_KEYS.HISTORY]: trimmed });
     return trimmed;
   });
 }
@@ -60,7 +62,7 @@ export function removeHistoryEntry(aliasId) {
   return withMutationLock(async () => {
     const history = await getHistory();
     const updated = history.filter(item => item.id !== aliasId && item.alias !== aliasId);
-    await browser.storage.local.set({ [STORAGE_KEYS.HISTORY]: updated });
+    await getStorageApi().set({ [STORAGE_KEYS.HISTORY]: updated });
     return updated;
   });
 }
@@ -74,7 +76,7 @@ export function updateHistoryEntry(idOrAlias, patch) {
       }
       return item;
     });
-    await browser.storage.local.set({ [STORAGE_KEYS.HISTORY]: updated });
+    await getStorageApi().set({ [STORAGE_KEYS.HISTORY]: updated });
     return updated;
   });
 }

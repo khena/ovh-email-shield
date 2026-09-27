@@ -1,6 +1,6 @@
 # 📖 Mode d'emploi - OVH Email Shield
 
-Guide complet d'installation, de configuration et d'utilisation pour l'extension Firefox **OVH Email Shield**.
+Guide complet d'installation, de configuration et d'utilisation pour l'extension multi-navigateurs (Firefox & Chrome) **OVH Email Shield**.
 
 <p align="center">
   <strong>🇫🇷 Version française</strong> • <a href="./USER_GUIDE.en.md">🇬🇧 English version</a>
@@ -13,7 +13,7 @@ Guide complet d'installation, de configuration et d'utilisation pour l'extension
 2. [Avertissements importants & Cas d'usage](#2-avertissements-importants--cas-dusage)
 3. [Prérequis nécessaires chez OVH](#3-prérequis-nécessaires-chez-ovh)
 4. [Générer vos clés API OVH (Pas-à-pas)](#4-générer-vos-clés-api-ovh-pas-à-pas)
-5. [Configurer l'extension](#5-configurer-lextension)
+5. [Installation et Configuration](#5-installation-et-configuration)
 6. [Utilisation au quotidien](#6-utilisation-au-quotidien)
    - [Méthode 1 : Clic droit dans un champ de formulaire (Recommandé)](#méthode-1--clic-droit-dans-un-champ-de-formulaire-recommandé)
    - [Méthode 2 : Depuis la popup de la barre d'outils](#méthode-2--depuis-la-popup-de-la-barre-doutils)
@@ -71,8 +71,8 @@ Pour des raisons de sécurité évidentes, ne renseignez jamais le mot de passe 
    - **Canada / USA :** [https://ca.api.ovh.com/createToken/](https://ca.api.ovh.com/createToken/)
 2. Connectez-vous avec votre identifiant client OVH (ex: `xx12345-ovh`).
 3. Remplissez le formulaire :
-   - **Application name :** `Firefox OVH Email Shield`
-   - **Application description :** `Génération d'alias et redirections email pour Firefox`
+   - **Application name :** `OVH Email Shield`
+   - **Application description :** `Génération d'alias et redirections email pour navigateur web`
    - **Validity :** Choisissez `Unlimited` pour ne pas avoir à renouveler les clés, ou la durée de votre choix.
 4. **Définissez les droits d'accès minimaux (Rights) :**
    Cliquez sur le bouton pour ajouter 4 lignes :
@@ -94,9 +94,25 @@ Pour des raisons de sécurité évidentes, ne renseignez jamais le mot de passe 
 
 ---
 
-## 4. Configurer l'extension
+## 5. Installation et Configuration
 
-1. Dans Firefox, cliquez sur l'icône **OVH Email Shield** (icône de bouclier dans la barre d'outils).
+### Étape 1 : Installer l'extension dans votre navigateur
+
+- **Pour Mozilla Firefox :**
+  1. Ouvrez `about:debugging#/runtime/this-firefox`.
+  2. Cliquez sur **« Charger un module temporaire... »**.
+  3. Sélectionnez le fichier `manifest.json` à la racine du projet ou `dist/firefox/manifest.json`.
+
+- **Pour Google Chrome / Chromium (Brave, Edge, Vivaldi) :**
+  1. Générez les paquets de distribution avec la commande `npm run build` (ou `npm run build:chrome`).
+  2. Ouvrez l'URL `chrome://extensions` (ou `brave://extensions`).
+  3. Activez le curseur **« Mode développeur »** en haut à droite.
+  4. Cliquez sur le bouton **« Charger l'extension non empaquetée »** (*Load unpacked*).
+  5. Sélectionnez le dossier `dist/chrome/`.
+
+### Étape 2 : Configurer les identifiants OVH
+
+1. Cliquez sur l'icône **OVH Email Shield** (icône de bouclier dans la barre d'outils de votre navigateur).
 2. Cliquez sur le bouton d'engrenage **⚙️** ou sur le lien **Configurer**.
 3. Sur la page d'options :
    - **Région :** Sélectionnez `Europe` ou `Canada / USA` selon votre compte.
@@ -105,14 +121,14 @@ Pour des raisons de sécurité évidentes, ne renseignez jamais le mot de passe 
    - **Consumer Key :** Collez votre `CK`.
    - **Domaine OVH :** Saisissez votre domaine (ex: `mondomaine.fr`).
    - **Email de destination :** Saisissez l'adresse réelle qui recevra vos courriels (ex: `mon.nom@gmail.com` ou `moi@orange.fr`).
-   - **Modèle de préfixe :** Par défaut `shield-[rand]`.
+   - **Modèle de préfixe :** Par défaut `shield.[site]-[rand]`.
 4. Cliquez sur **Tester la connexion** :
    - Un message vert doit confirmer la validité des clés et l'accès à votre domaine.
 5. Cliquez sur **Enregistrer**.
 
 ---
 
-## 5. Utilisation au quotidien
+## 6. Utilisation au quotidien
 
 ### Méthode 1 : Clic droit dans un champ de formulaire (Recommandé)
 1. Lors d'une inscription sur un site, faites un clic droit directement dans le champ `Email`.

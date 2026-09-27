@@ -326,7 +326,7 @@
     "description": "Libellé Sécurité dans la note d'aide"
   },
   "securityText": {
-    "message": "Vos clés sont stockées localement dans votre profil Firefox (browser.storage.local) et ne transitent jamais par aucun serveur tiers.",
+    "message": "Vos clés sont stockées localement dans votre navigateur (storage.local) et ne transitent jamais par aucun serveur tiers.",
     "description": "Texte de sécurité dans la note d'aide"
   },
   "errorInvalidEmail": {

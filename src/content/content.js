@@ -3,6 +3,8 @@
  * Listens for insertion events and manages notification toasts on web pages.
  */
 
+const browser = globalThis.browser || globalThis.chrome;
+
 let lastActiveElement = null;
 
 // Track the last focused input/textarea

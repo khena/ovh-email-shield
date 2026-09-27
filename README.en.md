@@ -1,7 +1,7 @@
 <div align="center">
   <img src="icons/icon.svg" alt="OVH Email Shield Logo" width="96" height="96">
   <h1>OVH Email Shield</h1>
-  <p><strong>Firefox WebExtension to instantly generate disposable email aliases on your own OVHcloud domain.</strong></p>
+  <p><strong>Cross-browser extension (Firefox & Chrome) to instantly generate disposable email aliases on your own OVHcloud domain.</strong></p>
 
   <p>
     <a href="./README.md">🇫🇷 Version française</a> • <strong>🇬🇧 English version</strong>
@@ -9,7 +9,8 @@
 
   <p>
     <a href="https://www.mozilla.org/firefox/"><img src="https://img.shields.io/badge/Firefox-Manifest%20V3-orange?logo=firefox" alt="Firefox MV3"></a>
-    <a href="./tests/"><img src="https://img.shields.io/badge/tests-115%20passing-brightgreen?logo=node.js" alt="Tests"></a>
+    <a href="https://www.google.com/chrome/"><img src="https://img.shields.io/badge/Chrome-Manifest%20V3-blue?logo=googlechrome" alt="Chrome MV3"></a>
+    <a href="./tests/"><img src="https://img.shields.io/badge/tests-125%20passing-brightgreen?logo=node.js" alt="Tests"></a>
     <a href="./USER_GUIDE.en.md"><img src="https://img.shields.io/badge/documentation-User%20Guide-blue" alt="User Guide"></a>
     <img src="https://img.shields.io/badge/telemetry-zero-success" alt="Zero Telemetry">
     <img src="https://img.shields.io/badge/developed%20with-Google%20Gemini-8e44ad?logo=google" alt="Developed with Google Gemini">
@@ -73,8 +74,8 @@ For a step-by-step tutorial (creating your OVH API keys, configuring minimal RES
 ### Option A: Temporary Add-on Load in Firefox (No build needed)
 1. Clone or download this repository:
    ```bash
-   git clone https://github.com/khena/ovh-email-shield-firefox.git
-   cd ovh-email-shield-firefox
+   git clone https://github.com/khena/ovh-email-shield.git
+   cd ovh-email-shield
    ```
 2. In Firefox, navigate to `about:debugging#/runtime/this-firefox`.
 3. Click on **"Load Temporary Add-on..."**.
@@ -137,6 +138,33 @@ The extension strictly adheres to the principle of least privilege:
 
 - **Zero Data Collection:** Declares `data_collection_permissions: { required: ["none"] }` in compliance with Mozilla policies.
 - **Local SHA-1 Signatures:** The OVH REST v1 authentication protocol is computed entirely in-memory via the browser's native Web Cryptography API. Your Application Secret is never sent over the wire.
+
+---
+
+## 🚀 Cross-Browser Installation & Build
+
+The extension natively supports **Mozilla Firefox** and **Google Chrome / Chromium** (Brave, Edge, Opera, etc.) from a single codebase.
+
+### 1. Build the packages
+```bash
+# Build both Firefox and Chrome distributions
+npm run build
+
+# Or target a specific browser
+npm run build:firefox   # Generates dist/firefox/ and dist/ovh-email-shield-firefox-vX.X.X.zip
+npm run build:chrome    # Generates dist/chrome/ and dist/ovh-email-shield-chrome-vX.X.X.zip
+```
+
+### 2. Install in Firefox
+1. Open `about:debugging#/runtime/this-firefox`.
+2. Click **"Load Temporary Add-on..."**.
+3. Select `manifest.json` at the project root or in `dist/firefox/manifest.json`.
+
+### 3. Install in Google Chrome / Chromium (Brave, Edge, Vivaldi)
+1. Navigate to `chrome://extensions` (or `brave://extensions`, `edge://extensions`).
+2. Toggle **"Developer mode"** on (top-right corner).
+3. Click **"Load unpacked"**.
+4. Select the `dist/chrome/` folder.
 
 ---
 

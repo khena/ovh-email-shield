@@ -1,20 +1,23 @@
 {
-  "name": "ovh-email-shield-firefox",
+  "name": "ovh-email-shield",
   "version": "1.0.4",
   "type": "module",
-  "description": "Firefox WebExtension to generate disposable email aliases using OVH API",
-  "homepage": "https://github.com/khena/ovh-email-shield-firefox",
+  "description": "Cross-browser WebExtension (Firefox & Chrome) to generate disposable email aliases using OVH API",
+  "homepage": "https://github.com/khena/ovh-email-shield",
   "repository": {
     "type": "git",
-    "url": "https://github.com/khena/ovh-email-shield-firefox.git"
+    "url": "https://github.com/khena/ovh-email-shield.git"
   },
   "scripts": {
     "test": "node --test",
     "start": "web-ext run",
     "lint": "web-ext lint",
-    "build": "web-ext build --overwrite-dest",
+    "build": "node scripts/build.js all",
+    "build:firefox": "node scripts/build.js firefox",
+    "build:chrome": "node scripts/build.js chrome",
+    "build:web-ext": "web-ext build --overwrite-dest",
     "bump": "node scripts/bump-version.js",
-    "postversion": "node scripts/bump-version.js && git add manifest.json"
+    "postversion": "node scripts/bump-version.js && git add manifest.json manifest.firefox.json manifest.chrome.json"
   },
   "keywords": [
     "firefox",
@@ -42,6 +45,9 @@
       "tests/**",
       "GEMINI.md",
       "*.md",
+      "dist",
+      "dist/**",
+      "manifest.*.json",
       "package.json",
       "package-lock.json",
       "skills-lock.json"

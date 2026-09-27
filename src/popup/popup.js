@@ -2,6 +2,8 @@ import { getConfig, getHistory, removeHistoryEntry } from '../lib/storage.js';
 import { OvhClient } from '../lib/ovh.js';
 import { getMessage, applyI18n } from '../lib/i18n.js';
 
+const browser = globalThis.browser || globalThis.chrome;
+
 let elements = null;
 
 function initElements() {
