@@ -16,6 +16,7 @@
     "build:firefox": "node scripts/build.js firefox",
     "build:chrome": "node scripts/build.js chrome",
     "build:web-ext": "web-ext build --overwrite-dest",
+    "deploy:firefox": "web-ext sign --source-dir dist/firefox --channel listed --approval-timeout 0",
     "bump": "node scripts/bump-version.js",
     "postversion": "node scripts/bump-version.js && git add manifest.json manifest.firefox.json manifest.chrome.json"
   },
