@@ -4,12 +4,13 @@
 import { getConfig, getHistory, addHistoryEntry, updateHistoryEntry } from '../lib/storage.js';
 import { OvhClient } from '../lib/ovh.js';
 import { generateUniqueAliasAddress, extractSiteTag } from '../lib/alias.js';
+import { getMessage } from '../lib/i18n.js';
 
 // Setup Context Menu for input fields
 browser.runtime.onInstalled.addListener(() => {
   browser.contextMenus.create({
     id: 'ovh-shield-generate-email',
-    title: 'Bouclier OVH : Générer & insérer alias email',
+    title: getMessage('contextMenuGenerate', null, 'OVH Email Shield : générer un alias email'),
     contexts: ['editable'],
   });
 });
@@ -49,7 +50,7 @@ async function syncRedirectionWithOvh(entry, config, tabId = null) {
         await browser.tabs.sendMessage(tabId, {
           type: 'SHOW_NOTIFICATION',
           error: true,
-          message: `⚠️ Échec création OVH (${entry.alias}) : ${err.message}`,
+          message: getMessage('syncErrorNotification', [entry.alias, err.message], `⚠️ Échec création OVH (${entry.alias}) : ${err.message}`),
         });
       } catch {
         // Tab fermé ou restreint
@@ -68,7 +69,7 @@ async function syncRedirectionWithOvh(entry, config, tabId = null) {
 export async function createAndRegisterAlias(source = 'manual', tabId = null, urlOrHost = null) {
   const config = await getConfig();
   if (!config.domain || !config.destinationEmail) {
-    throw new Error('Configuration incomplète : domaine ou email cible manquant.');
+    throw new Error(getMessage('missingConfigError', null, 'Configuration incomplète : domaine ou email cible manquant.'));
   }
 
   const history = await getHistory();
@@ -138,7 +139,7 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
         await browser.tabs.sendMessage(tab.id, {
           type: 'SHOW_NOTIFICATION',
           error: true,
-          message: `Erreur OVH : ${err.message}`,
+          message: getMessage('contextMenuError', [err.message], `Erreur OVH : ${err.message}`),
         });
       } catch {
         // Tab might not have content script ready

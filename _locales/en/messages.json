@@ -1,0 +1,410 @@
+{
+  "extensionName": {
+    "message": "OVH Email Shield",
+    "description": "Extension name"
+  },
+  "extensionDescription": {
+    "message": "Generate disposable email aliases forwarded via your OVHcloud account to protect your privacy and block spam.",
+    "description": "Description shown in extension manager and web stores"
+  },
+  "actionTitle": {
+    "message": "OVH Email Shield",
+    "description": "Toolbar action button tooltip"
+  },
+  "contextMenuGenerate": {
+    "message": "OVH Email Shield: generate an email alias",
+    "description": "Context menu title on editable fields"
+  },
+  "syncErrorNotification": {
+    "message": "⚠️ Failed to create OVH alias ($ALIAS$): $ERROR$",
+    "description": "Error notification during OVH API synchronization",
+    "placeholders": {
+      "alias": {
+        "content": "$1",
+        "example": "shield-123@domain.com"
+      },
+      "error": {
+        "content": "$2",
+        "example": "Network error"
+      }
+    }
+  },
+  "contextMenuError": {
+    "message": "OVH error: $ERROR$",
+    "description": "Notification error on context menu click",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "Domain not found"
+      }
+    }
+  },
+  "missingConfigError": {
+    "message": "Incomplete configuration: domain or destination email missing.",
+    "description": "Error when configuration is incomplete"
+  },
+  "popupTitle": {
+    "message": "Email Shield",
+    "description": "Title in popup header"
+  },
+  "domainUnconfigured": {
+    "message": "Not configured",
+    "description": "Badge showing lack of configuration"
+  },
+  "btnSettingsTitle": {
+    "message": "OVH Settings",
+    "description": "Tooltip and aria-label for settings button"
+  },
+  "warningMissingCredentials": {
+    "message": "⚠️ Missing OVH credentials.",
+    "description": "Warning banner when API keys are missing"
+  },
+  "btnConfigure": {
+    "message": "Configure",
+    "description": "Button to open configuration"
+  },
+  "btnGenerateAlias": {
+    "message": "Generate an alias",
+    "description": "Primary button text to generate an alias"
+  },
+  "btnGeneratingAlias": {
+    "message": "Creating on OVH...",
+    "description": "Loading state for generate button"
+  },
+  "labelNewAlias": {
+    "message": "Newly created alias:",
+    "description": "Label above input field containing generated alias"
+  },
+  "btnCopy": {
+    "message": "Copy",
+    "description": "Button to copy alias to clipboard"
+  },
+  "ariaCopyAlias": {
+    "message": "Copy alias",
+    "description": "Aria label for copy button"
+  },
+  "btnInsertPage": {
+    "message": "Insert into page",
+    "description": "Button to insert alias into active page field"
+  },
+  "historyTitle": {
+    "message": "Recent aliases",
+    "description": "History section title"
+  },
+  "historyEmpty": {
+    "message": "No recent aliases",
+    "description": "Empty state message when history is empty"
+  },
+  "statusSync": {
+    "message": "⏳ Sync...",
+    "description": "Status badge for alias currently syncing"
+  },
+  "statusSyncTitle": {
+    "message": "Creation in progress on OVH...",
+    "description": "Status tooltip for pending alias"
+  },
+  "statusError": {
+    "message": "⚠️ Error",
+    "description": "Status badge for failed alias"
+  },
+  "statusErrorFallback": {
+    "message": "OVH synchronization failed",
+    "description": "Fallback tooltip for synchronization error"
+  },
+  "statusActive": {
+    "message": "✓ Active",
+    "description": "Status badge for active alias"
+  },
+  "statusActiveTitle": {
+    "message": "Active redirection on OVH",
+    "description": "Status tooltip for active alias"
+  },
+  "siteWebTooltip": {
+    "message": "Website: $SITE$",
+    "description": "Website badge tooltip",
+    "placeholders": {
+      "site": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "domainOvhTooltip": {
+    "message": "OVH domain: $DOMAIN$",
+    "description": "Domain badge tooltip",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "copiedToast": {
+    "message": "Copied!",
+    "description": "Toast confirming clipboard copy"
+  },
+  "copyErrorToast": {
+    "message": "Failed to copy to clipboard",
+    "description": "Toast error when clipboard copy fails"
+  },
+  "deleteBtnTitle": {
+    "message": "Delete",
+    "description": "Delete button tooltip"
+  },
+  "deleteConfirm": {
+    "message": "Delete OVH redirection for $ALIAS$ (domain $DOMAIN$)?",
+    "description": "Confirmation prompt before deleting redirection",
+    "placeholders": {
+      "alias": {
+        "content": "$1",
+        "example": "shield-123@domain.com"
+      },
+      "domain": {
+        "content": "$2",
+        "example": "domain.com"
+      }
+    }
+  },
+  "redirectionDeletedToast": {
+    "message": "Redirection deleted",
+    "description": "Toast confirming deletion"
+  },
+  "deleteErrorToast": {
+    "message": "Deletion error: $ERROR$",
+    "description": "Toast error when deletion fails",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "API Error"
+      }
+    }
+  },
+  "configRequired": {
+    "message": "Configuration required",
+    "description": "Badge shown when extension is not configured"
+  },
+  "aliasCreatedAndCopiedToast": {
+    "message": "Alias created and copied!",
+    "description": "Toast after generation and copy"
+  },
+  "aliasCreatedToast": {
+    "message": "Alias created!",
+    "description": "Toast after generation without copy"
+  },
+  "errorPrefix": {
+    "message": "Error: $ERROR$",
+    "description": "Error prefix",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "Network failed"
+      }
+    }
+  },
+  "insertedToast": {
+    "message": "Inserted into page!",
+    "description": "Toast confirming insertion into web page"
+  },
+  "cannotInsertToast": {
+    "message": "Cannot insert on this page",
+    "description": "Toast warning when page insertion fails"
+  },
+  "optionsPageTitle": {
+    "message": "Settings - OVH Email Shield",
+    "description": "HTML title for options page"
+  },
+  "optionsHeaderTitle": {
+    "message": "OVH Email Shield Settings",
+    "description": "Main title on options page"
+  },
+  "optionsHeaderSubtitle": {
+    "message": "Configure your OVHcloud API credentials to enable automatic alias generation.",
+    "description": "Subtitle on options page"
+  },
+  "apiSectionTitle": {
+    "message": "OVH API Credentials",
+    "description": "Section title for API credentials"
+  },
+  "labelEndpoint": {
+    "message": "OVH Region",
+    "description": "Label for region dropdown"
+  },
+  "labelAppKey": {
+    "message": "Application Key (AK)",
+    "description": "Label for Application Key field"
+  },
+  "labelAppSecret": {
+    "message": "Application Secret (AS)",
+    "description": "Label for Application Secret field"
+  },
+  "labelConsumerKey": {
+    "message": "Consumer Key (CK)",
+    "description": "Label for Consumer Key field"
+  },
+  "redirectionSectionTitle": {
+    "message": "Redirection Settings",
+    "description": "Section title for redirection"
+  },
+  "labelDomain": {
+    "message": "OVH Domain",
+    "description": "Label for domain field"
+  },
+  "helpDomain": {
+    "message": "The domain hosted at OVH on which to create aliases.",
+    "description": "Help text for domain field"
+  },
+  "labelDestinationEmail": {
+    "message": "Destination Email Address",
+    "description": "Label for destination email field"
+  },
+  "helpDestinationEmail": {
+    "message": "Your real mailbox that receives forwarded emails.",
+    "description": "Help text for destination email field"
+  },
+  "labelPrefixPattern": {
+    "message": "Prefix Pattern",
+    "description": "Label for prefix pattern field"
+  },
+  "helpPrefixVariables": {
+    "message": "Variables:",
+    "description": "Prefix for variables explanation"
+  },
+  "helpPrefixForSite": {
+    "message": "for the visited website,",
+    "description": "Explanation of [site]"
+  },
+  "helpPrefixForRand": {
+    "message": "for 6 random characters (e.g.",
+    "description": "Explanation of [rand]"
+  },
+  "helpPrefixExample": {
+    "message": "if you do not want to include the site).",
+    "description": "Example without site"
+  },
+  "btnTestConnection": {
+    "message": "Test Connection",
+    "description": "Button to test API connection"
+  },
+  "btnTestingConnection": {
+    "message": "Testing connection...",
+    "description": "Loading state for test button"
+  },
+  "btnSave": {
+    "message": "Save",
+    "description": "Save button"
+  },
+  "guideTitle": {
+    "message": "Guide: Create your OVH API keys",
+    "description": "Title of help guide for creating keys"
+  },
+  "guideIntro": {
+    "message": "To allow the extension to manage redirections without exposing your main OVH password:",
+    "description": "Intro for guide to creating keys"
+  },
+  "guideStep1": {
+    "message": "Go to the OVH token generator:",
+    "description": "Step 1 of guide"
+  },
+  "guideOpenTokenLink": {
+    "message": "Open OVH createToken ↗",
+    "description": "Link to OVH createToken console"
+  },
+  "guideStep2Prefix": {
+    "message": "Set an application name (e.g.",
+    "description": "Step 2 prefix"
+  },
+  "guideStep3": {
+    "message": "Add the following minimal REST permissions:",
+    "description": "Step 3 of guide"
+  },
+  "guideStep4": {
+    "message": "Validate and copy the Application Key, Application Secret, and Consumer Key.",
+    "description": "Step 4 of guide"
+  },
+  "securityLabel": {
+    "message": "Security:",
+    "description": "Security label in note"
+  },
+  "securityText": {
+    "message": "Your keys are stored locally in your Firefox profile (browser.storage.local) and are never sent to any third-party server.",
+    "description": "Security explanation in note"
+  },
+  "errorInvalidEmail": {
+    "message": "Invalid destination email format.",
+    "description": "Validation error for destination email"
+  },
+  "errorInvalidDomain": {
+    "message": "Invalid OVH domain name (e.g. mydomain.com).",
+    "description": "Validation error for domain"
+  },
+  "errorInvalidPrefixPattern": {
+    "message": "Invalid prefix pattern. Use only letters, digits, dashes, dots, and [site]/[rand].",
+    "description": "Validation error for prefix pattern"
+  },
+  "saveSuccess": {
+    "message": "✓ Configuration saved successfully.",
+    "description": "Success message when settings are saved"
+  },
+  "errorMissingKeysForTest": {
+    "message": "Please fill in AK, AS, and CK before testing.",
+    "description": "Error when testing connection with missing keys"
+  },
+  "testSuccessWithDomain": {
+    "message": "✓ Connection successful! Identified with OVH (credential #$CREDENTIAL$) and domain \"$DOMAIN$\" accessible.",
+    "description": "Success message for test with domain",
+    "placeholders": {
+      "credential": {
+        "content": "$1",
+        "example": "12345"
+      },
+      "domain": {
+        "content": "$2",
+        "example": "domain.com"
+      }
+    }
+  },
+  "testSuccessNoDomain": {
+    "message": "✓ Valid OVH API connection! (Remember to specify the target domain).",
+    "description": "Success message for test without domain"
+  },
+  "testFailure": {
+    "message": "✗ OVH connection failed: $ERROR$",
+    "description": "Failure message for API test",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "Invalid credentials"
+      }
+    }
+  },
+  "toastAliasInserted": {
+    "message": "✓ OVH alias inserted: $EMAIL$",
+    "description": "In-page toast when alias is inserted",
+    "placeholders": {
+      "email": {
+        "content": "$1",
+        "example": "shield-123@domain.com"
+      }
+    }
+  },
+  "toastAliasCopied": {
+    "message": "✓ Alias copied to clipboard: $EMAIL$",
+    "description": "In-page toast when alias is copied",
+    "placeholders": {
+      "email": {
+        "content": "$1",
+        "example": "shield-123@domain.com"
+      }
+    }
+  },
+  "toastAliasOnly": {
+    "message": "✓ OVH alias: $EMAIL$",
+    "description": "In-page toast fallback",
+    "placeholders": {
+      "email": {
+        "content": "$1",
+        "example": "shield-123@domain.com"
+      }
+    }
+  }
+}

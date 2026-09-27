@@ -1,0 +1,410 @@
+{
+  "extensionName": {
+    "message": "OVH Email Shield",
+    "description": "Nom de l'extension"
+  },
+  "extensionDescription": {
+    "message": "Générez des alias email aléatoires redirigés via votre compte OVHcloud pour contrer l'usurpation et le spam.",
+    "description": "Description affichée dans le gestionnaire d'extensions et le store"
+  },
+  "actionTitle": {
+    "message": "OVH Email Shield",
+    "description": "Infobulle du bouton d'action dans la barre d'outils"
+  },
+  "contextMenuGenerate": {
+    "message": "OVH Email Shield : générer un alias email",
+    "description": "Titre du menu contextuel sur champ de saisie"
+  },
+  "syncErrorNotification": {
+    "message": "⚠️ Échec création OVH ($ALIAS$) : $ERROR$",
+    "description": "Notification d'erreur lors de la synchronisation avec l'API OVH",
+    "placeholders": {
+      "alias": {
+        "content": "$1",
+        "example": "shield-123@domaine.fr"
+      },
+      "error": {
+        "content": "$2",
+        "example": "Network error"
+      }
+    }
+  },
+  "contextMenuError": {
+    "message": "Erreur OVH : $ERROR$",
+    "description": "Notification d'erreur lors du clic sur le menu contextuel",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "Domain not found"
+      }
+    }
+  },
+  "missingConfigError": {
+    "message": "Configuration incomplète : domaine ou email cible manquant.",
+    "description": "Erreur lorsque la configuration est incomplète"
+  },
+  "popupTitle": {
+    "message": "Email Shield",
+    "description": "Titre dans l'en-tête de la popup"
+  },
+  "domainUnconfigured": {
+    "message": "Non configuré",
+    "description": "Badge indiquant l'absence de configuration"
+  },
+  "btnSettingsTitle": {
+    "message": "Paramètres OVH",
+    "description": "Infobulle et label d'accessibilité du bouton de paramètres"
+  },
+  "warningMissingCredentials": {
+    "message": "⚠️ Identifiants OVH manquants.",
+    "description": "Bannière d'avertissement lorsque les clés API sont manquantes"
+  },
+  "btnConfigure": {
+    "message": "Configurer",
+    "description": "Bouton pour ouvrir la configuration"
+  },
+  "btnGenerateAlias": {
+    "message": "Générer un alias",
+    "description": "Texte du bouton principal de génération d'alias"
+  },
+  "btnGeneratingAlias": {
+    "message": "Création chez OVH...",
+    "description": "État de chargement du bouton de génération"
+  },
+  "labelNewAlias": {
+    "message": "Nouvel alias créé :",
+    "description": "Libellé au-dessus du champ contenant l'alias généré"
+  },
+  "btnCopy": {
+    "message": "Copier",
+    "description": "Bouton pour copier l'alias dans le presse-papier"
+  },
+  "ariaCopyAlias": {
+    "message": "Copier l'alias",
+    "description": "Label aria pour le bouton de copie"
+  },
+  "btnInsertPage": {
+    "message": "Insérer dans la page",
+    "description": "Bouton pour insérer l'alias généré dans le champ actif de la page"
+  },
+  "historyTitle": {
+    "message": "Derniers alias créés",
+    "description": "Titre de la section historique"
+  },
+  "historyEmpty": {
+    "message": "Aucun alias récent",
+    "description": "Message affiché lorsque l'historique est vide"
+  },
+  "statusSync": {
+    "message": "⏳ Sync...",
+    "description": "Badge de statut pour un alias en cours de synchronisation"
+  },
+  "statusSyncTitle": {
+    "message": "Création en cours chez OVH...",
+    "description": "Infobulle de statut pour un alias en attente"
+  },
+  "statusError": {
+    "message": "⚠️ Erreur",
+    "description": "Badge de statut pour un alias en erreur"
+  },
+  "statusErrorFallback": {
+    "message": "Échec synchronisation OVH",
+    "description": "Infobulle par défaut en cas d'erreur de synchronisation"
+  },
+  "statusActive": {
+    "message": "✓ Actif",
+    "description": "Badge de statut pour un alias actif"
+  },
+  "statusActiveTitle": {
+    "message": "Redirection active chez OVH",
+    "description": "Infobulle de statut pour un alias actif"
+  },
+  "siteWebTooltip": {
+    "message": "Site web : $SITE$",
+    "description": "Infobulle du badge de site web",
+    "placeholders": {
+      "site": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "domainOvhTooltip": {
+    "message": "Domaine OVH : $DOMAIN$",
+    "description": "Infobulle du badge de domaine",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "copiedToast": {
+    "message": "Copié !",
+    "description": "Toast confirmant la copie dans le presse-papier"
+  },
+  "copyErrorToast": {
+    "message": "Erreur copie presse-papier",
+    "description": "Toast signalant une erreur de copie"
+  },
+  "deleteBtnTitle": {
+    "message": "Supprimer",
+    "description": "Infobulle du bouton de suppression d'alias"
+  },
+  "deleteConfirm": {
+    "message": "Supprimer la redirection OVH pour $ALIAS$ (domaine $DOMAIN$) ?",
+    "description": "Message de confirmation avant suppression",
+    "placeholders": {
+      "alias": {
+        "content": "$1",
+        "example": "shield-123@mondomaine.fr"
+      },
+      "domain": {
+        "content": "$2",
+        "example": "mondomaine.fr"
+      }
+    }
+  },
+  "redirectionDeletedToast": {
+    "message": "Redirection supprimée",
+    "description": "Toast confirmant la suppression d'une redirection"
+  },
+  "deleteErrorToast": {
+    "message": "Erreur suppression: $ERROR$",
+    "description": "Toast signalant une erreur lors de la suppression",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "API Error"
+      }
+    }
+  },
+  "configRequired": {
+    "message": "Configuration requise",
+    "description": "Badge affiché lorsque l'extension n'est pas encore configurée"
+  },
+  "aliasCreatedAndCopiedToast": {
+    "message": "Alias créé et copié !",
+    "description": "Toast après génération automatique et copie"
+  },
+  "aliasCreatedToast": {
+    "message": "Alias créé !",
+    "description": "Toast après génération sans copie automatique"
+  },
+  "errorPrefix": {
+    "message": "Erreur: $ERROR$",
+    "description": "Préfixe pour message d'erreur",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "Network failed"
+      }
+    }
+  },
+  "insertedToast": {
+    "message": "Inséré dans la page !",
+    "description": "Toast confirmant l'insertion dans la page"
+  },
+  "cannotInsertToast": {
+    "message": "Impossible d'insérer sur cette page",
+    "description": "Toast d'avertissement quand l'insertion dans la page est impossible"
+  },
+  "optionsPageTitle": {
+    "message": "Configuration - OVH Email Shield",
+    "description": "Titre HTML de la page d'options"
+  },
+  "optionsHeaderTitle": {
+    "message": "Paramètres OVH Email Shield",
+    "description": "Titre principal de la page d'options"
+  },
+  "optionsHeaderSubtitle": {
+    "message": "Configurez vos accès API OVHcloud pour activer la génération automatique d'alias.",
+    "description": "Sous-titre descriptif de la page d'options"
+  },
+  "apiSectionTitle": {
+    "message": "Identifiants API OVH",
+    "description": "Titre de section pour les identifiants API"
+  },
+  "labelEndpoint": {
+    "message": "Région OVH",
+    "description": "Libellé du sélecteur de région"
+  },
+  "labelAppKey": {
+    "message": "Application Key (AK)",
+    "description": "Libellé du champ Application Key"
+  },
+  "labelAppSecret": {
+    "message": "Application Secret (AS)",
+    "description": "Libellé du champ Application Secret"
+  },
+  "labelConsumerKey": {
+    "message": "Consumer Key (CK)",
+    "description": "Libellé du champ Consumer Key"
+  },
+  "redirectionSectionTitle": {
+    "message": "Paramètres de Redirection",
+    "description": "Titre de section pour la redirection"
+  },
+  "labelDomain": {
+    "message": "Domaine OVH",
+    "description": "Libellé du champ domaine"
+  },
+  "helpDomain": {
+    "message": "Le domaine hébergé chez OVH sur lequel créer les alias.",
+    "description": "Texte d'aide pour le domaine"
+  },
+  "labelDestinationEmail": {
+    "message": "Adresse email de destination",
+    "description": "Libellé de l'email cible"
+  },
+  "helpDestinationEmail": {
+    "message": "Votre vraie boîte mail recevant les courriers transférés.",
+    "description": "Texte d'aide pour l'email cible"
+  },
+  "labelPrefixPattern": {
+    "message": "Modèle de préfixe",
+    "description": "Libellé du modèle de préfixe"
+  },
+  "helpPrefixVariables": {
+    "message": "Variables :",
+    "description": "Préfixe pour explication des variables"
+  },
+  "helpPrefixForSite": {
+    "message": "pour le site web visité,",
+    "description": "Explication de [site]"
+  },
+  "helpPrefixForRand": {
+    "message": "pour 6 caractères aléatoires (ex :",
+    "description": "Explication de [rand]"
+  },
+  "helpPrefixExample": {
+    "message": "si vous ne voulez pas inclure le site).",
+    "description": "Exemple sans site"
+  },
+  "btnTestConnection": {
+    "message": "Tester la connexion",
+    "description": "Bouton de test de connexion API"
+  },
+  "btnTestingConnection": {
+    "message": "Test en cours...",
+    "description": "État de chargement du bouton de test"
+  },
+  "btnSave": {
+    "message": "Enregistrer",
+    "description": "Bouton d'enregistrement du formulaire"
+  },
+  "guideTitle": {
+    "message": "Guide : Créer vos clés API OVH",
+    "description": "Titre du panneau d'aide pour créer les clés"
+  },
+  "guideIntro": {
+    "message": "Pour autoriser l'extension à ajouter des redirections sans exposer votre mot de passe OVH principal :",
+    "description": "Introduction du guide de création de clés"
+  },
+  "guideStep1": {
+    "message": "Rendez-vous sur le générateur de clés OVH :",
+    "description": "Étape 1 du guide de création de clés"
+  },
+  "guideOpenTokenLink": {
+    "message": "Ouvrir OVH createToken ↗",
+    "description": "Lien vers la console createToken d'OVH"
+  },
+  "guideStep2Prefix": {
+    "message": "Définissez un nom d'application (ex :",
+    "description": "Étape 2 du guide"
+  },
+  "guideStep3": {
+    "message": "Ajoutez les droits REST minimaux suivants :",
+    "description": "Étape 3 du guide de création de clés"
+  },
+  "guideStep4": {
+    "message": "Validez et copiez l'Application Key, l'Application Secret et la Consumer Key.",
+    "description": "Étape 4 du guide de création de clés"
+  },
+  "securityLabel": {
+    "message": "Sécurité :",
+    "description": "Libellé Sécurité dans la note d'aide"
+  },
+  "securityText": {
+    "message": "Vos clés sont stockées localement dans votre profil Firefox (browser.storage.local) et ne transitent jamais par aucun serveur tiers.",
+    "description": "Texte de sécurité dans la note d'aide"
+  },
+  "errorInvalidEmail": {
+    "message": "Format d'adresse email de destination invalide.",
+    "description": "Erreur de validation email cible"
+  },
+  "errorInvalidDomain": {
+    "message": "Nom de domaine OVH invalide (ex: mondomaine.fr).",
+    "description": "Erreur de validation nom de domaine"
+  },
+  "errorInvalidPrefixPattern": {
+    "message": "Modèle de préfixe invalide. Utilisez uniquement lettres, chiffres, tirets, points et [site]/[rand].",
+    "description": "Erreur de validation modèle de préfixe"
+  },
+  "saveSuccess": {
+    "message": "✓ Configuration enregistrée avec succès.",
+    "description": "Confirmation d'enregistrement des options"
+  },
+  "errorMissingKeysForTest": {
+    "message": "Veuillez renseigner AK, AS et CK avant de tester.",
+    "description": "Erreur lors du test de connexion si des clés manquent"
+  },
+  "testSuccessWithDomain": {
+    "message": "✓ Connexion réussie ! Identifié OVH (crédential #$CREDENTIAL$) et domaine \"$DOMAIN$\" accessible.",
+    "description": "Message de succès du test avec domaine",
+    "placeholders": {
+      "credential": {
+        "content": "$1",
+        "example": "12345"
+      },
+      "domain": {
+        "content": "$2",
+        "example": "mondomaine.fr"
+      }
+    }
+  },
+  "testSuccessNoDomain": {
+    "message": "✓ Connexion API OVH valide ! (Pensez à spécifier le domaine cible).",
+    "description": "Message de succès du test sans domaine spécifié"
+  },
+  "testFailure": {
+    "message": "✗ Échec de connexion OVH : $ERROR$",
+    "description": "Message d'échec du test de connexion",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "Invalid credentials"
+      }
+    }
+  },
+  "toastAliasInserted": {
+    "message": "✓ Alias OVH inséré : $EMAIL$",
+    "description": "Notification dans la page lorsque l'alias est inséré",
+    "placeholders": {
+      "email": {
+        "content": "$1",
+        "example": "shield-123@mondomaine.fr"
+      }
+    }
+  },
+  "toastAliasCopied": {
+    "message": "✓ Alias copié dans presse-papier : $EMAIL$",
+    "description": "Notification dans la page lorsque l'alias est copié",
+    "placeholders": {
+      "email": {
+        "content": "$1",
+        "example": "shield-123@mondomaine.fr"
+      }
+    }
+  },
+  "toastAliasOnly": {
+    "message": "✓ Alias OVH : $EMAIL$",
+    "description": "Notification de fallback avec l'adresse alias",
+    "placeholders": {
+      "email": {
+        "content": "$1",
+        "example": "shield-123@mondomaine.fr"
+      }
+    }
+  }
+}

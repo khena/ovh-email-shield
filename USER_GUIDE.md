@@ -116,7 +116,7 @@ Pour des raisons de sécurité évidentes, ne renseignez jamais le mot de passe 
 
 ### Méthode 1 : Clic droit dans un champ de formulaire (Recommandé)
 1. Lors d'une inscription sur un site, faites un clic droit directement dans le champ `Email`.
-2. Dans le menu contextuel, cliquez sur **« Bouclier OVH : Générer & insérer alias email »**.
+2. Dans le menu contextuel, cliquez sur **« OVH Email Shield : générer un alias email »**.
 3. L'alias est automatiquement généré chez OVH et inséré dans le champ.
 4. Une notification discrète en bas à droite de votre écran confirme la création et l'adresse générée.
 

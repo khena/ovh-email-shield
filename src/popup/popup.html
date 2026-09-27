@@ -12,45 +12,45 @@
       <div class="logo-group">
         <img src="/icons/icon.svg" width="28" height="28" alt="Logo" class="logo-icon">
         <div>
-          <h1 class="title">Email Shield</h1>
-          <span class="subtitle" id="active-domain-badge">Non configuré</span>
+          <h1 class="title" data-i18n="popupTitle">Email Shield</h1>
+          <span class="subtitle" id="active-domain-badge" data-i18n="domainUnconfigured">Non configuré</span>
         </div>
       </div>
-      <button id="btn-open-options" class="icon-btn" title="Paramètres OVH" aria-label="Paramètres OVH">
+      <button id="btn-open-options" class="icon-btn" title="Paramètres OVH" aria-label="Paramètres OVH" data-i18n-title="btnSettingsTitle" data-i18n-aria-label="btnSettingsTitle">
         ⚙️
       </button>
     </header>
 
     <div id="unconfigured-warning" class="banner warning hidden">
-      <span>⚠️ Identifiants OVH manquants.</span>
-      <button id="btn-go-options" class="btn-link">Configurer</button>
+      <span data-i18n="warningMissingCredentials">⚠️ Identifiants OVH manquants.</span>
+      <button id="btn-go-options" class="btn-link" data-i18n="btnConfigure">Configurer</button>
     </div>
 
     <section class="action-card">
       <button id="btn-generate" class="btn-primary">
         <span class="btn-icon">🛡️</span>
-        <span class="btn-text">Générer un alias</span>
+        <span class="btn-text" data-i18n="btnGenerateAlias">Générer un alias</span>
       </button>
 
       <div id="result-box" class="result-box hidden">
-        <label class="field-label" for="generated-email-input">Nouvel alias créé :</label>
+        <label class="field-label" for="generated-email-input" data-i18n="labelNewAlias">Nouvel alias créé :</label>
         <div class="input-group">
-          <input type="text" id="generated-email-input" readonly aria-label="Alias généré">
-          <button id="btn-copy-result" class="btn-secondary" title="Copier" aria-label="Copier l'alias">📋</button>
+          <input type="text" id="generated-email-input" readonly aria-label="Alias généré" data-i18n-aria-label="ariaCopyAlias">
+          <button id="btn-copy-result" class="btn-secondary" title="Copier" aria-label="Copier l'alias" data-i18n-title="btnCopy" data-i18n-aria-label="ariaCopyAlias">📋</button>
         </div>
         <div class="result-actions">
-          <button id="btn-insert-page" class="btn-small">Insérer dans la page</button>
+          <button id="btn-insert-page" class="btn-small" data-i18n="btnInsertPage">Insérer dans la page</button>
         </div>
       </div>
     </section>
 
     <section class="history-section">
       <div class="section-header">
-        <h2>Derniers alias créés</h2>
+        <h2 data-i18n="historyTitle">Derniers alias créés</h2>
         <span id="history-count" class="count-badge">0</span>
       </div>
       <div id="history-list" class="history-list">
-        <div class="empty-state">Aucun alias récent</div>
+        <div class="empty-state" data-i18n="historyEmpty">Aucun alias récent</div>
       </div>
     </section>
 

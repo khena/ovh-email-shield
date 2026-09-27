@@ -1,5 +1,6 @@
 import { getConfig, getHistory, removeHistoryEntry } from '../lib/storage.js';
 import { OvhClient } from '../lib/ovh.js';
+import { getMessage, applyI18n } from '../lib/i18n.js';
 
 let elements = null;
 
@@ -35,7 +36,7 @@ function setBtnLoading(isLoading) {
   if (isLoading) {
     const textSpan = document.createElement('span');
     textSpan.className = 'btn-text';
-    textSpan.textContent = 'Création chez OVH...';
+    textSpan.textContent = getMessage('btnGeneratingAlias', null, 'Création chez OVH...');
     elements.btnGenerate.appendChild(textSpan);
   } else {
     const iconSpan = document.createElement('span');
@@ -43,7 +44,7 @@ function setBtnLoading(isLoading) {
     iconSpan.textContent = '🛡️';
     const textSpan = document.createElement('span');
     textSpan.className = 'btn-text';
-    textSpan.textContent = 'Générer un alias';
+    textSpan.textContent = getMessage('btnGenerateAlias', null, 'Générer un alias');
     elements.btnGenerate.appendChild(iconSpan);
     elements.btnGenerate.appendChild(textSpan);
   }
@@ -56,7 +57,7 @@ function renderHistory(items) {
   if (!items.length) {
     const emptyState = document.createElement('div');
     emptyState.className = 'empty-state';
-    emptyState.textContent = 'Aucun alias récent';
+    emptyState.textContent = getMessage('historyEmpty', null, 'Aucun alias récent');
     elements.historyList.appendChild(emptyState);
     return;
   }
@@ -65,7 +66,7 @@ function renderHistory(items) {
     const el = document.createElement('div');
     el.className = 'history-item';
 
-    const dateFormatted = new Date(item.createdAt).toLocaleDateString('fr-FR', {
+    const dateFormatted = new Date(item.createdAt).toLocaleDateString(undefined, {
       day: '2-digit',
       month: '2-digit',
       hour: '2-digit',
@@ -89,14 +90,14 @@ function renderHistory(items) {
     const status = item.status || 'active';
     statusBadge.className = `status-pill status-${status}`;
     if (status === 'pending') {
-      statusBadge.textContent = '⏳ Sync...';
-      statusBadge.title = 'Création en cours chez OVH...';
+      statusBadge.textContent = getMessage('statusSync', null, '⏳ Sync...');
+      statusBadge.title = getMessage('statusSyncTitle', null, 'Création en cours chez OVH...');
     } else if (status === 'error') {
-      statusBadge.textContent = '⚠️ Erreur';
-      statusBadge.title = item.errorMessage || 'Échec synchronisation OVH';
+      statusBadge.textContent = getMessage('statusError', null, '⚠️ Erreur');
+      statusBadge.title = item.errorMessage || getMessage('statusErrorFallback', null, 'Échec synchronisation OVH');
     } else {
-      statusBadge.textContent = '✓ Actif';
-      statusBadge.title = 'Redirection active chez OVH';
+      statusBadge.textContent = getMessage('statusActive', null, '✓ Actif');
+      statusBadge.title = getMessage('statusActiveTitle', null, 'Redirection active chez OVH');
     }
 
     headerRow.appendChild(emailSpan);
@@ -111,14 +112,14 @@ function renderHistory(items) {
       const siteBadge = document.createElement('span');
       siteBadge.className = 'history-site-badge';
       siteBadge.textContent = item.site;
-      siteBadge.title = `Site web : ${item.site}`;
+      siteBadge.title = getMessage('siteWebTooltip', [item.site], `Site web : ${item.site}`);
       metaRow.appendChild(siteBadge);
     }
 
     const domainBadge = document.createElement('span');
     domainBadge.className = 'history-domain-badge';
     domainBadge.textContent = `@${itemDomain}`;
-    domainBadge.title = `Domaine OVH : ${itemDomain}`;
+    domainBadge.title = getMessage('domainOvhTooltip', [itemDomain], `Domaine OVH : ${itemDomain}`);
 
     const dateSpan = document.createElement('span');
     dateSpan.className = 'history-date';
@@ -135,25 +136,30 @@ function renderHistory(items) {
 
     const copyBtn = document.createElement('button');
     copyBtn.className = 'btn-copy';
-    copyBtn.title = 'Copier';
-    copyBtn.setAttribute('aria-label', `Copier ${item.alias}`);
+    copyBtn.title = getMessage('btnCopy', null, 'Copier');
+    copyBtn.setAttribute('aria-label', `${getMessage('btnCopy', null, 'Copier')} ${item.alias}`);
     copyBtn.textContent = '📋';
     copyBtn.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(item.alias);
-        showToast('Copié !');
+        showToast(getMessage('copiedToast', null, 'Copié !'));
       } catch {
-        showToast('Erreur copie presse-papier', 2000);
+        showToast(getMessage('copyErrorToast', null, 'Erreur copie presse-papier'), 2000);
       }
     });
 
     const deleteBtn = document.createElement('button');
     deleteBtn.className = 'btn-delete';
-    deleteBtn.title = 'Supprimer';
-    deleteBtn.setAttribute('aria-label', `Supprimer ${item.alias}`);
+    deleteBtn.title = getMessage('deleteBtnTitle', null, 'Supprimer');
+    deleteBtn.setAttribute('aria-label', `${getMessage('deleteBtnTitle', null, 'Supprimer')} ${item.alias}`);
     deleteBtn.textContent = '🗑️';
     deleteBtn.addEventListener('click', async () => {
-      if (confirm(`Supprimer la redirection OVH pour ${item.alias} (domaine ${itemDomain}) ?`)) {
+      const confirmPrompt = getMessage(
+        'deleteConfirm',
+        [item.alias, itemDomain],
+        `Supprimer la redirection OVH pour ${item.alias} (domaine ${itemDomain}) ?`
+      );
+      if (confirm(confirmPrompt)) {
         await handleDeleteRedirection(item.id, item.alias, itemDomain);
       }
     });
@@ -179,13 +185,14 @@ async function handleDeleteRedirection(id, email, itemDomain = null) {
       updated = await removeHistoryEntry(email);
     }
     renderHistory(updated);
-    showToast('Redirection supprimée');
+    showToast(getMessage('redirectionDeletedToast', null, 'Redirection supprimée'));
   } catch (err) {
-    showToast(`Erreur suppression: ${err.message}`, 3000);
+    showToast(getMessage('deleteErrorToast', [err.message], `Erreur suppression: ${err.message}`), 3000);
   }
 }
 
 async function init() {
+  applyI18n();
   initElements();
   currentConfig = await getConfig();
   const isConfigured = Boolean(
@@ -201,7 +208,7 @@ async function init() {
     elements.unconfiguredWarning.classList.add('hidden');
     elements.btnGenerate.disabled = false;
   } else {
-    elements.domainBadge.textContent = 'Configuration requise';
+    elements.domainBadge.textContent = getMessage('configRequired', null, 'Configuration requise');
     elements.domainBadge.style.color = '#f59e0b';
     elements.unconfiguredWarning.classList.remove('hidden');
     elements.btnGenerate.disabled = true;
@@ -249,15 +256,15 @@ async function init() {
       elements.resultBox.classList.remove('hidden');
       try {
         await navigator.clipboard.writeText(res.entry.alias);
-        showToast('Alias créé et copié !');
+        showToast(getMessage('aliasCreatedAndCopiedToast', null, 'Alias créé et copié !'));
       } catch {
-        showToast('Alias créé !');
+        showToast(getMessage('aliasCreatedToast', null, 'Alias créé !'));
       }
 
       const updatedHistory = await getHistory();
       renderHistory(updatedHistory);
     } catch (err) {
-      showToast(`Erreur: ${err.message}`, 4000);
+      showToast(getMessage('errorPrefix', [err.message], `Erreur: ${err.message}`), 4000);
     } finally {
       setBtnLoading(false);
     }
@@ -268,11 +275,11 @@ async function init() {
     if (email) {
       try {
         await navigator.clipboard.writeText(email);
-        showToast('Copié !');
+        showToast(getMessage('copiedToast', null, 'Copié !'));
       } catch {
         elements.generatedEmailInput.select();
         document.execCommand('copy');
-        showToast('Copié !');
+        showToast(getMessage('copiedToast', null, 'Copié !'));
       }
     }
   });
@@ -288,9 +295,9 @@ async function init() {
           type: 'INSERT_ALIAS',
           email,
         });
-        showToast('Inséré dans la page !');
+        showToast(getMessage('insertedToast', null, 'Inséré dans la page !'));
       } catch (err) {
-        showToast('Impossible d\'insérer sur cette page', 3000);
+        showToast(getMessage('cannotInsertToast', null, 'Impossible d\'insérer sur cette page'), 3000);
       }
     }
   });

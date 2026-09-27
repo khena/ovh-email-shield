@@ -1,6 +1,7 @@
 import { getConfig, saveConfig } from '../lib/storage.js';
 import { OvhClient } from '../lib/ovh.js';
 import { isValidEmail, isValidDomain, sanitizeDomain, isValidPrefixPattern } from '../lib/validation.js';
+import { getMessage, applyI18n } from '../lib/i18n.js';
 
 const form = document.getElementById('config-form');
 const endpointInput = document.getElementById('endpoint');
@@ -35,6 +36,7 @@ function getFormData() {
 }
 
 async function loadSettings() {
+  applyI18n();
   const config = await getConfig();
   endpointInput.value = config.endpoint || 'ovh-eu';
   appKeyInput.value = config.appKey || '';
@@ -50,42 +52,45 @@ form.addEventListener('submit', async (e) => {
   const data = getFormData();
 
   if (data.destinationEmail && !isValidEmail(data.destinationEmail)) {
-    showStatus('Format d\'adresse email de destination invalide.', 'error');
+    showStatus(getMessage('errorInvalidEmail', null, 'Format d\'adresse email de destination invalide.'), 'error');
     destinationEmailInput.focus();
     return;
   }
 
   if (data.domain && !isValidDomain(data.domain)) {
-    showStatus('Nom de domaine OVH invalide (ex: mondomaine.fr).', 'error');
+    showStatus(getMessage('errorInvalidDomain', null, 'Nom de domaine OVH invalide (ex: mondomaine.fr).'), 'error');
     domainInput.focus();
     return;
   }
 
   if (data.prefixPattern && !isValidPrefixPattern(data.prefixPattern)) {
-    showStatus('Modèle de préfixe invalide. Utilisez uniquement lettres, chiffres, tirets, points et [site]/[rand].', 'error');
+    showStatus(
+      getMessage('errorInvalidPrefixPattern', null, 'Modèle de préfixe invalide. Utilisez uniquement lettres, chiffres, tirets, points et [site]/[rand].'),
+      'error'
+    );
     prefixPatternInput.focus();
     return;
   }
 
   await saveConfig(data);
-  showStatus('✓ Configuration enregistrée avec succès.', 'success');
+  showStatus(getMessage('saveSuccess', null, '✓ Configuration enregistrée avec succès.'), 'success');
 });
 
 btnTest.addEventListener('click', async () => {
   const data = getFormData();
   if (!data.appKey || !data.appSecret || !data.consumerKey) {
-    showStatus('Veuillez renseigner AK, AS et CK avant de tester.', 'error');
+    showStatus(getMessage('errorMissingKeysForTest', null, 'Veuillez renseigner AK, AS et CK avant de tester.'), 'error');
     return;
   }
 
   if (data.domain && !isValidDomain(data.domain)) {
-    showStatus('Nom de domaine OVH invalide (ex: mondomaine.fr).', 'error');
+    showStatus(getMessage('errorInvalidDomain', null, 'Nom de domaine OVH invalide (ex: mondomaine.fr).'), 'error');
     domainInput.focus();
     return;
   }
 
   btnTest.disabled = true;
-  btnTest.textContent = 'Test en cours...';
+  btnTest.textContent = getMessage('btnTestingConnection', null, 'Test en cours...');
 
   try {
     const client = new OvhClient(data);
@@ -93,15 +98,25 @@ btnTest.addEventListener('click', async () => {
 
     if (data.domain) {
       await client.listRedirections();
-      showStatus(`✓ Connexion réussie ! Identifié OVH (crédential #${authRes?.credentialId || 'OK'}) et domaine "${data.domain}" accessible.`, 'success');
+      showStatus(
+        getMessage(
+          'testSuccessWithDomain',
+          [String(authRes?.credentialId || 'OK'), data.domain],
+          `✓ Connexion réussie ! Identifié OVH (crédential #${authRes?.credentialId || 'OK'}) et domaine "${data.domain}" accessible.`
+        ),
+        'success'
+      );
     } else {
-      showStatus(`✓ Connexion API OVH valide ! (Pensez à spécifier le domaine cible).`, 'success');
+      showStatus(
+        getMessage('testSuccessNoDomain', null, '✓ Connexion API OVH valide ! (Pensez à spécifier le domaine cible).'),
+        'success'
+      );
     }
   } catch (err) {
-    showStatus(`✗ Échec de connexion OVH : ${err.message}`, 'error');
+    showStatus(getMessage('testFailure', [err.message], `✗ Échec de connexion OVH : ${err.message}`), 'error');
   } finally {
     btnTest.disabled = false;
-    btnTest.textContent = 'Tester la connexion';
+    btnTest.textContent = getMessage('btnTestConnection', null, 'Tester la connexion');
   }
 });
 

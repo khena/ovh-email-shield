@@ -145,7 +145,10 @@ L'extension applique le principe du moindre privilège :
 Structure Vanilla ES Modules sans bundling complexe :
 
 ```text
-├── manifest.json              # Configuration Manifest V3 Firefox
+├── manifest.json              # Configuration Manifest V3 Firefox (default_locale: en)
+├── _locales/                  # Catalogues de traduction i18n
+│   ├── en/messages.json       # Anglais (langue par défaut)
+│   └── fr/messages.json       # Français
 ├── icons/                     # Icônes vectorielles du bouclier
 │   └── icon.svg
 ├── src/
@@ -162,11 +165,13 @@ Structure Vanilla ES Modules sans bundling complexe :
 │   │   ├── options.css
 │   │   └── options.js         # Test de connexion et sauvegarde
 │   └── lib/
+│       ├── i18n.js            # Helper d'internationalisation et auto-traduction DOM
 │       ├── ovh.js             # Client API OVH (signatures HMAC SHA-1, endpoints)
 │       ├── alias.js           # Générateur de suffixes aléatoires et formateur
 │       ├── dom-autofill.js    # Utilitaires d'injection DOM compatibles React/Vue
 │       └── storage.js         # Couche d'accès asynchrone à browser.storage.local
-├── tests/                     # Suite de tests unitaires native Node.js (34 tests)
+├── tests/                     # Suite de tests unitaires native Node.js
+│   ├── i18n.test.js
 │   ├── ovh.test.js
 │   ├── storage.test.js
 │   ├── alias.test.js
@@ -175,6 +180,17 @@ Structure Vanilla ES Modules sans bundling complexe :
 ├── LICENSE                    # Licence Mozilla Public License 2.0
 └── package.json
 ```
+
+---
+
+## 🌍 Internationalisation (i18n) & Traduction
+
+Le projet utilise l'API standard WebExtensions `i18n`. L'**anglais** est la langue par défaut (`default_locale: "en"`) et une version **française** complète est intégrée (`_locales/fr/`).
+
+### Ajouter une nouvelle langue
+1. Dupliquez le dossier `_locales/en/` vers `_locales/<code_iso>/` (par exemple `_locales/es/` pour l'espagnol, `_locales/de/` pour l'allemand).
+2. Traduisez les valeurs `"message"` dans le nouveau fichier `messages.json`.
+3. Lancez `npm test` : la suite vérifie automatiquement la complétude des clés et la conformité du catalogue.
 
 ---
 
@@ -219,7 +235,7 @@ Cette extension applique le principe de moindre privilège et a fait l'objet d'u
 | `activeTab` | Onglet actif | Permet à la popup et au menu contextuel d'accéder à l'URL de l'onglet actif (pour dériver le tag `[site]`) et d'autoriser l'injection dans la page ciblée sans permission permanente d'accès aux onglets. |
 | `scripting` | Onglet actif | Utilisé comme mécanisme de secours pour insérer l'alias dans les onglets ouverts avant le chargement ou la mise à jour de l'extension. |
 | `storage` | Profil local (`browser.storage.local`) | Stockage local et déconnecté des identifiants API OVH et de l'historique des 50 derniers alias. **Aucune synchronisation distante** via `browser.storage.sync` (zéro fuite vers les serveurs Firefox Sync). |
-| `contextMenus` | Menu contextuel | Ajoute l'entrée « Bouclier OVH : Générer & insérer alias email » sur les champs éditables de formulaire. |
+| `contextMenus` | Menu contextuel | Ajoute l'entrée « OVH Email Shield : générer un alias email » sur les champs éditables de formulaire. |
 | `clipboardWrite` | Presse-papier | Permet la copie immédiate de l'alias dans le presse-papier lors de la génération. |
 | `https://*.api.ovh.com/*` | API OVHcloud | Strictement restreint aux points de terminaison officiels `eu.api.ovh.com` et `ca.api.ovh.com`. Zéro communication vers d'autres serveurs. |
 

@@ -5,3 +5,5 @@ conductor/
 .DS_Store
 *.log
 GEMINI.md
+.agents/
+skills-lock.json

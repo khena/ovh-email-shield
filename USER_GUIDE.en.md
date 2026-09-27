@@ -116,7 +116,7 @@ For security, never use your main OVH account password. The extension uses scope
 
 ### Method 1: Right-click in a form field (Recommended)
 1. On any sign-up or registration form, right-click directly inside the `Email` input field.
-2. In the context menu, click **"Bouclier OVH : Générer & insérer alias email"**.
+2. In the context menu, click **"OVH Email Shield : générer un alias email"**.
 3. The alias is generated instantly and inserted into the field.
 4. A subtle notification in the lower-right corner confirms the address created.
 

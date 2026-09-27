@@ -145,7 +145,10 @@ The extension strictly adheres to the principle of least privilege:
 Clean Vanilla ES Modules structure without bundlers:
 
 ```text
-├── manifest.json              # Firefox Manifest V3 configuration
+├── manifest.json              # Firefox Manifest V3 configuration (default_locale: en)
+├── _locales/                  # Translation catalogs (WebExtensions i18n)
+│   ├── en/messages.json       # English (default locale)
+│   └── fr/messages.json       # French
 ├── icons/                     # Vector SVG shield icons
 │   └── icon.svg
 ├── src/
@@ -162,11 +165,13 @@ Clean Vanilla ES Modules structure without bundlers:
 │   │   ├── options.css
 │   │   └── options.js         # Connection test and config persistence
 │   └── lib/
+│       ├── i18n.js            # Internationalization helper and DOM translation
 │       ├── ovh.js             # OVH REST client (HMAC SHA-1 signing, endpoints)
 │       ├── alias.js           # Random suffix generator and pattern formatter
 │       ├── dom-autofill.js    # Reactive DOM injection helpers (React/Vue/etc.)
 │       └── storage.js         # Storage wrapper for browser.storage.local
-├── tests/                     # Automated unit test suite (34 tests)
+├── tests/                     # Automated unit test suite
+│   ├── i18n.test.js
 │   ├── ovh.test.js
 │   ├── storage.test.js
 │   ├── alias.test.js
@@ -176,6 +181,17 @@ Clean Vanilla ES Modules structure without bundlers:
 ├── LICENSE                    # Mozilla Public License 2.0
 └── package.json
 ```
+
+---
+
+## 🌍 Internationalization (i18n) & Translation
+
+The project utilizes the native WebExtensions `i18n` API. **English** is the default language (`default_locale: "en"`) and a complete **French** translation is included (`_locales/fr/`).
+
+### Adding a new language
+1. Duplicate the `_locales/en/` directory to `_locales/<iso_code>/` (e.g. `_locales/es/` for Spanish, `_locales/de/` for German).
+2. Translate the `"message"` fields in the new `messages.json` file.
+3. Run `npm test`: the test suite automatically verifies key parity and catalog format.
 
 ---
 
@@ -220,7 +236,7 @@ This extension strictly adheres to the principle of least privilege and has comp
 | `activeTab` | Active tab | Allows the popup and context menu to read the active hostname (to derive the `[site]` tag) and authorize insertion without broad permanent tab permissions. |
 | `scripting` | Active tab | Fallback injection mechanism for tabs opened prior to extension installation or reload. |
 | `storage` | Local profile (`browser.storage.local`) | Completely offline local storage for OVH API credentials and recent history. **No remote sync** via `browser.storage.sync` (zero exposure to Firefox Sync servers). |
-| `contextMenus` | Context menu | Adds the "OVH Shield: Generate & insert email alias" option on editable form fields. |
+| `contextMenus` | Context menu | Adds the "OVH Email Shield : générer un alias email" option on editable form fields. |
 | `clipboardWrite` | Clipboard | Copies the newly created alias immediately to the user's clipboard. |
 | `https://*.api.ovh.com/*` | OVHcloud REST API | Strictly confined to official `eu.api.ovh.com` and `ca.api.ovh.com` endpoints. Zero communication with third-party hosts. |
 

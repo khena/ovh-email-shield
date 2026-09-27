@@ -1,6 +1,6 @@
 {
   "name": "ovh-email-shield-firefox",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "description": "Firefox WebExtension to generate disposable email aliases using OVH API",
   "homepage": "https://github.com/khena/ovh-email-shield-firefox",
@@ -32,6 +32,8 @@
     "ignoreFiles": [
       ".github",
       ".github/**",
+      ".agents",
+      ".agents/**",
       "scripts",
       "scripts/**",
       "conductor",
@@ -41,7 +43,8 @@
       "GEMINI.md",
       "*.md",
       "package.json",
-      "package-lock.json"
+      "package-lock.json",
+      "skills-lock.json"
     ],
     "build": {
       "overwriteDest": true

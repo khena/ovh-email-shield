@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Configuration - OVH Email Shield</title>
+  <title data-i18n="optionsPageTitle">Configuration - OVH Email Shield</title>
   <link rel="stylesheet" href="options.css">
 </head>
 <body>
@@ -12,8 +12,8 @@
       <div class="logo-group">
         <img src="../../icons/icon.svg" alt="Logo" class="logo-icon">
         <div>
-          <h1>Paramètres OVH Email Shield</h1>
-          <p class="subtitle">Configurez vos accès API OVHcloud pour activer la génération automatique d'alias.</p>
+          <h1 data-i18n="optionsHeaderTitle">Paramètres OVH Email Shield</h1>
+          <p class="subtitle" data-i18n="optionsHeaderSubtitle">Configurez vos accès API OVHcloud pour activer la génération automatique d'alias.</p>
         </div>
       </div>
     </header>
@@ -21,10 +21,10 @@
     <div class="grid-layout">
       <!-- Formulaire principal -->
       <main class="card">
-        <h2>Identifiants API OVH</h2>
+        <h2 data-i18n="apiSectionTitle">Identifiants API OVH</h2>
         <form id="config-form">
           <div class="form-group">
-            <label for="endpoint">Région OVH</label>
+            <label for="endpoint" data-i18n="labelEndpoint">Région OVH</label>
             <select id="endpoint">
               <option value="ovh-eu">Europe (eu.api.ovh.com)</option>
               <option value="ovh-ca">Canada / USA (ca.api.ovh.com)</option>
@@ -32,45 +32,53 @@
           </div>
 
           <div class="form-group">
-            <label for="appKey">Application Key (AK)</label>
+            <label for="appKey" data-i18n="labelAppKey">Application Key (AK)</label>
             <input type="text" id="appKey" placeholder="Ex: 5a7b8c..." required autocomplete="off">
           </div>
 
           <div class="form-group">
-            <label for="appSecret">Application Secret (AS)</label>
+            <label for="appSecret" data-i18n="labelAppSecret">Application Secret (AS)</label>
             <input type="password" id="appSecret" placeholder="Ex: 8f9e0d..." required autocomplete="off">
           </div>
 
           <div class="form-group">
-            <label for="consumerKey">Consumer Key (CK)</label>
+            <label for="consumerKey" data-i18n="labelConsumerKey">Consumer Key (CK)</label>
             <input type="password" id="consumerKey" placeholder="Ex: 1a2b3c..." required autocomplete="off">
           </div>
 
           <hr class="separator">
 
-          <h2>Paramètres de Redirection</h2>
+          <h2 data-i18n="redirectionSectionTitle">Paramètres de Redirection</h2>
 
           <div class="form-group">
-            <label for="domain">Domaine OVH</label>
+            <label for="domain" data-i18n="labelDomain">Domaine OVH</label>
             <input type="text" id="domain" placeholder="Ex: mondomaine.fr" required>
-            <small class="helper-text">Le domaine hébergé chez OVH sur lequel créer les alias.</small>
+            <small class="helper-text" data-i18n="helpDomain">Le domaine hébergé chez OVH sur lequel créer les alias.</small>
           </div>
 
           <div class="form-group">
-            <label for="destinationEmail">Adresse email de destination</label>
+            <label for="destinationEmail" data-i18n="labelDestinationEmail">Adresse email de destination</label>
             <input type="email" id="destinationEmail" placeholder="Ex: mon-adresse-secrete@gmail.com" required>
-            <small class="helper-text">Votre vraie boîte mail recevant les courriers transférés.</small>
+            <small class="helper-text" data-i18n="helpDestinationEmail">Votre vraie boîte mail recevant les courriers transférés.</small>
           </div>
 
           <div class="form-group">
-            <label for="prefixPattern">Modèle de préfixe</label>
+            <label for="prefixPattern" data-i18n="labelPrefixPattern">Modèle de préfixe</label>
             <input type="text" id="prefixPattern" placeholder="shield.[site]-[rand]" value="shield.[site]-[rand]">
-            <small class="helper-text">Variables : <code>[site]</code> pour le site web visité, <code>[rand]</code> pour 6 caractères aléatoires (ex: <code>shield-[rand]</code> si vous ne voulez pas inclure le site).</small>
+            <small class="helper-text">
+              <span data-i18n="helpPrefixVariables">Variables :</span>
+              <code>[site]</code>
+              <span data-i18n="helpPrefixForSite">pour le site web visité,</span>
+              <code>[rand]</code>
+              <span data-i18n="helpPrefixForRand">pour 6 caractères aléatoires (ex :</span>
+              <code>shield-[rand]</code>
+              <span data-i18n="helpPrefixExample">si vous ne voulez pas inclure le site).</span>
+            </small>
           </div>
 
           <div class="button-group">
-            <button type="button" id="btn-test" class="btn-secondary">Tester la connexion</button>
-            <button type="submit" id="btn-save" class="btn-primary">Enregistrer</button>
+            <button type="button" id="btn-test" class="btn-secondary" data-i18n="btnTestConnection">Tester la connexion</button>
+            <button type="submit" id="btn-save" class="btn-primary" data-i18n="btnSave">Enregistrer</button>
           </div>
         </form>
 
@@ -79,34 +87,34 @@
 
       <!-- Panneau d'aide & guide création de clés OVH -->
       <aside class="card guide-card">
-        <h2>Guide : Créer vos clés API OVH</h2>
-        <p>Pour autoriser l'extension à ajouter des redirections sans exposer votre mot de passe OVH principal :</p>
+        <h2 data-i18n="guideTitle">Guide : Créer vos clés API OVH</h2>
+        <p data-i18n="guideIntro">Pour autoriser l'extension à ajouter des redirections sans exposer votre mot de passe OVH principal :</p>
         
         <ol class="guide-steps">
           <li>
-            Rendez-vous sur le générateur de clés OVH :
+            <span data-i18n="guideStep1">Rendez-vous sur le générateur de clés OVH :</span>
             <br>
-            <a href="https://eu.api.ovh.com/createToken/" target="_blank" rel="noopener noreferrer" class="link-external">
+            <a href="https://eu.api.ovh.com/createToken/" target="_blank" rel="noopener noreferrer" class="link-external" data-i18n="guideOpenTokenLink">
               Ouvrir OVH createToken ↗
             </a>
           </li>
           <li>
-            Définissez un nom d'application (ex: <code>Firefox-Email-Shield</code>).
+            <span data-i18n="guideStep2Prefix">Définissez un nom d'application (ex :</span> <code>Firefox-Email-Shield</code>).
           </li>
           <li>
-            Ajoutez les droits REST minimaux suivants :
+            <span data-i18n="guideStep3">Ajoutez les droits REST minimaux suivants :</span>
             <pre class="code-block">GET  /auth/*
 GET  /email/domain/*
 POST /email/domain/*
 DELETE /email/domain/*</pre>
           </li>
           <li>
-            Validez et copiez l'<b>Application Key</b>, l'<b>Application Secret</b> et la <b>Consumer Key</b>.
+            <span data-i18n="guideStep4">Validez et copiez l'Application Key, l'Application Secret et la Consumer Key.</span>
           </li>
         </ol>
 
         <div class="security-note">
-          🔒 <strong>Sécurité :</strong> Vos clés sont stockées localement dans votre profil Firefox (<code>browser.storage.local</code>) et ne transitent jamais par aucun serveur tiers.
+          🔒 <strong data-i18n="securityLabel">Sécurité :</strong> <span data-i18n="securityText">Vos clés sont stockées localement dans votre profil Firefox (browser.storage.local) et ne transitent jamais par aucun serveur tiers.</span>
         </div>
       </aside>
     </div>

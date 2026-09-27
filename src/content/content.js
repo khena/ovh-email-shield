@@ -87,6 +87,19 @@ function showToast(message, isError = false) {
   }, 4000);
 }
 
+function getI18nMessage(key, substitutions, fallback) {
+  try {
+    const api = globalThis.browser?.i18n || globalThis.chrome?.i18n;
+    if (typeof api?.getMessage === 'function') {
+      const msg = api.getMessage(key, substitutions);
+      if (msg) return msg;
+    }
+  } catch {
+    // Ignore restricted API context errors
+  }
+  return fallback;
+}
+
 function insertEmail(email) {
   const target = lastActiveElement || document.activeElement;
   if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) {
@@ -95,17 +108,17 @@ function insertEmail(email) {
     // Dispatch input & change events for reactive frameworks (React, Vue, Angular)
     target.dispatchEvent(new Event('input', { bubbles: true }));
     target.dispatchEvent(new Event('change', { bubbles: true }));
-    showToast(`✓ Alias OVH inséré : ${email}`);
+    showToast(getI18nMessage('toastAliasInserted', [email], `✓ Alias OVH inséré : ${email}`));
   } else if (target && target.isContentEditable) {
     target.focus();
     document.execCommand('insertText', false, email);
-    showToast(`✓ Alias OVH inséré : ${email}`);
+    showToast(getI18nMessage('toastAliasInserted', [email], `✓ Alias OVH inséré : ${email}`));
   } else {
     // Fallback clipboard
     navigator.clipboard.writeText(email).then(() => {
-      showToast(`✓ Alias copié dans presse-papier : ${email}`);
+      showToast(getI18nMessage('toastAliasCopied', [email], `✓ Alias copié dans presse-papier : ${email}`));
     }).catch(() => {
-      showToast(`✓ Alias OVH : ${email}`);
+      showToast(getI18nMessage('toastAliasOnly', [email], `✓ Alias OVH : ${email}`));
     });
   }
 }
