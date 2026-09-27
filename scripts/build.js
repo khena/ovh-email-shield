@@ -81,6 +81,10 @@ export function buildTarget(target) {
     const stats = fs.statSync(zipPath);
     const sizeKb = (stats.size / 1024).toFixed(1);
     console.log(`  ✓ Archive zip générée : dist/${zipName} (${sizeKb} Ko)`);
+
+    // Copie canonique pour automatisation CI (ex: chrome-webstore-upload)
+    const canonicalZipPath = path.join(distDir, `ovh-email-shield-${target}.zip`);
+    fs.copyFileSync(zipPath, canonicalZipPath);
   } catch (err) {
     console.warn(`  ⚠️ Impossible de créer le zip via "zip" : ${err.message}`);
   }
