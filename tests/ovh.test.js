@@ -189,23 +189,32 @@ describe('OvhClient', () => {
   });
 
   test('findRedirectionId() queries redirection endpoint with from filter', async () => {
-    let capturedUrl = '';
+    let capturedFilterUrl = '';
     globalThis.fetch = async (url) => {
       if (url.endsWith('/auth/time')) {
         return { ok: true, text: async () => Math.round(Date.now() / 1000).toString() };
       }
-      capturedUrl = url;
-      return {
-        ok: true,
-        text: async () => JSON.stringify(['real-id-456']),
-      };
+      if (url.includes('/redirection?from=')) {
+        capturedFilterUrl = url;
+        return {
+          ok: true,
+          text: async () => JSON.stringify(['real-id-456']),
+        };
+      }
+      if (url.endsWith('/redirection/real-id-456')) {
+        return {
+          ok: true,
+          text: async () => JSON.stringify({ id: 'real-id-456', from: 'alias@example.com' }),
+        };
+      }
+      return { ok: true, text: async () => '' };
     };
 
     const client = new OvhClient(config);
     const id = await client.findRedirectionId('alias@example.com');
 
     assert.equal(id, 'real-id-456');
-    assert.ok(capturedUrl.includes('from=alias%40example.com'));
+    assert.ok(capturedFilterUrl.includes('from=alias%40example.com'));
   });
 
   test('deleteRedirection() resolves real ID by email when id is 0 or pending', async () => {
@@ -216,6 +225,9 @@ describe('OvhClient', () => {
       }
       if (options?.method === 'GET' && url.includes('?from=')) {
         return { ok: true, text: async () => JSON.stringify(['resolved-id-789']) };
+      }
+      if (options?.method === 'GET' && url.endsWith('/redirection/resolved-id-789')) {
+        return { ok: true, text: async () => JSON.stringify({ id: 'resolved-id-789', from: 'alias@example.com' }) };
       }
       if (options?.method === 'DELETE') {
         deletedUrl = url;
@@ -245,5 +257,61 @@ describe('OvhClient', () => {
     const result = await client.deleteRedirection(0, 'missing@example.com');
 
     assert.deepEqual(result, { success: true, notFound: true });
+  });
+
+  test('findRedirectionId() strictly verifies details.from and ignores mismatched IDs', async () => {
+    globalThis.fetch = async (url) => {
+      if (url.endsWith('/auth/time')) {
+        return { ok: true, text: async () => Math.round(Date.now() / 1000).toString() };
+      }
+      if (url.includes('/redirection?from=')) {
+        return {
+          ok: true,
+          text: async () => JSON.stringify(['partial-match-1', 'exact-match-2']),
+        };
+      }
+      if (url.endsWith('/redirection/partial-match-1')) {
+        return {
+          ok: true,
+          text: async () => JSON.stringify({ id: 'partial-match-1', from: 'other-alias@example.com' }),
+        };
+      }
+      if (url.endsWith('/redirection/exact-match-2')) {
+        return {
+          ok: true,
+          text: async () => JSON.stringify({ id: 'exact-match-2', from: 'target-alias@example.com' }),
+        };
+      }
+      return { ok: true, text: async () => '' };
+    };
+
+    const client = new OvhClient(config);
+    const id = await client.findRedirectionId('target-alias@example.com');
+    assert.equal(id, 'exact-match-2');
+  });
+
+  test('findRedirectionId() returns null when all candidate IDs mismatch target email', async () => {
+    globalThis.fetch = async (url) => {
+      if (url.endsWith('/auth/time')) {
+        return { ok: true, text: async () => Math.round(Date.now() / 1000).toString() };
+      }
+      if (url.includes('/redirection?from=')) {
+        return {
+          ok: true,
+          text: async () => JSON.stringify(['id-mismatch-1']),
+        };
+      }
+      if (url.endsWith('/redirection/id-mismatch-1')) {
+        return {
+          ok: true,
+          text: async () => JSON.stringify({ id: 'id-mismatch-1', from: 'unrelated@example.com' }),
+        };
+      }
+      return { ok: true, text: async () => '' };
+    };
+
+    const client = new OvhClient(config);
+    const id = await client.findRedirectionId('my-alias@example.com');
+    assert.equal(id, null);
   });
 });

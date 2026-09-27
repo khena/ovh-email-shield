@@ -3,13 +3,25 @@
  */
 
 export function generateRandomSuffix(len = 6) {
+  if (len <= 0) return '';
   const chars = 'abcdefghjkmnpqrstuvwxyz23456789';
+  const charsLen = chars.length;
+  // Maximum byte value that is an exact multiple of charsLen (256 - (256 % 31) = 248)
+  const maxValidByte = 256 - (256 % charsLen);
   let res = '';
-  const bytes = new Uint8Array(len);
-  crypto.getRandomValues(bytes);
-  for (let i = 0; i < len; i++) {
-    res += chars[bytes[i] % chars.length];
+
+  while (res.length < len) {
+    const needed = len - res.length;
+    // Over-allocate buffer slightly to minimize CSPRNG calls while discarding biased bytes
+    const buffer = new Uint8Array(needed + 4);
+    crypto.getRandomValues(buffer);
+    for (let i = 0; i < buffer.length && res.length < len; i++) {
+      if (buffer[i] < maxValidByte) {
+        res += chars[buffer[i] % charsLen];
+      }
+    }
   }
+
   return res;
 }
 

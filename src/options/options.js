@@ -1,5 +1,6 @@
 import { getConfig, saveConfig } from '../lib/storage.js';
 import { OvhClient } from '../lib/ovh.js';
+import { isValidEmail, isValidDomain, sanitizeDomain, isValidPrefixPattern } from '../lib/validation.js';
 
 const form = document.getElementById('config-form');
 const endpointInput = document.getElementById('endpoint');
@@ -19,8 +20,7 @@ function showStatus(message, type = 'success') {
 }
 
 function getFormData() {
-  let domain = domainInput.value.trim().toLowerCase();
-  domain = domain.replace(/^https?:\/\//, '').replace(/^@/, '').replace(/\/.*$/, '').trim();
+  const domain = sanitizeDomain(domainInput.value);
   domainInput.value = domain;
 
   return {
@@ -48,6 +48,25 @@ async function loadSettings() {
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const data = getFormData();
+
+  if (data.destinationEmail && !isValidEmail(data.destinationEmail)) {
+    showStatus('Format d\'adresse email de destination invalide.', 'error');
+    destinationEmailInput.focus();
+    return;
+  }
+
+  if (data.domain && !isValidDomain(data.domain)) {
+    showStatus('Nom de domaine OVH invalide (ex: mondomaine.fr).', 'error');
+    domainInput.focus();
+    return;
+  }
+
+  if (data.prefixPattern && !isValidPrefixPattern(data.prefixPattern)) {
+    showStatus('Modèle de préfixe invalide. Utilisez uniquement lettres, chiffres, tirets, points et [site]/[rand].', 'error');
+    prefixPatternInput.focus();
+    return;
+  }
+
   await saveConfig(data);
   showStatus('✓ Configuration enregistrée avec succès.', 'success');
 });
@@ -56,6 +75,12 @@ btnTest.addEventListener('click', async () => {
   const data = getFormData();
   if (!data.appKey || !data.appSecret || !data.consumerKey) {
     showStatus('Veuillez renseigner AK, AS et CK avant de tester.', 'error');
+    return;
+  }
+
+  if (data.domain && !isValidDomain(data.domain)) {
+    showStatus('Nom de domaine OVH invalide (ex: mondomaine.fr).', 'error');
+    domainInput.focus();
     return;
   }
 

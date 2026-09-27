@@ -34,17 +34,28 @@ function setNativeValue(element, value) {
 }
 
 function showToast(message, isError = false) {
-  const existing = document.getElementById('ovh-shield-toast');
+  const existing = document.getElementById('ovh-shield-toast-host');
   if (existing) existing.remove();
 
-  const toast = document.createElement('div');
-  toast.id = 'ovh-shield-toast';
-  toast.textContent = message;
-  Object.assign(toast.style, {
+  const host = document.createElement('div');
+  host.id = 'ovh-shield-toast-host';
+  Object.assign(host.style, {
+    all: 'initial',
     position: 'fixed',
     bottom: '24px',
     right: '24px',
     zIndex: '2147483647',
+    pointerEvents: 'none',
+  });
+
+  // Attach closed Shadow Root: host.shadowRoot is null to host scripts
+  const shadow = host.attachShadow({ mode: 'closed' });
+
+  const toast = document.createElement('div');
+  toast.textContent = message;
+  Object.assign(toast.style, {
+    all: 'initial',
+    display: 'block',
     padding: '12px 18px',
     borderRadius: '8px',
     color: '#ffffff',
@@ -53,12 +64,17 @@ function showToast(message, isError = false) {
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     fontSize: '14px',
     fontWeight: '500',
+    lineHeight: '1.4',
+    boxSizing: 'border-box',
     transition: 'opacity 0.3s ease, transform 0.3s ease',
     opacity: '0',
     transform: 'translateY(10px)',
+    pointerEvents: 'auto',
   });
 
-  document.body.appendChild(toast);
+  shadow.appendChild(toast);
+  (document.body || document.documentElement).appendChild(host);
+
   requestAnimationFrame(() => {
     toast.style.opacity = '1';
     toast.style.transform = 'translateY(0)';
@@ -67,7 +83,7 @@ function showToast(message, isError = false) {
   setTimeout(() => {
     toast.style.opacity = '0';
     toast.style.transform = 'translateY(10px)';
-    setTimeout(() => toast.remove(), 300);
+    setTimeout(() => host.remove(), 300);
   }, 4000);
 }
 

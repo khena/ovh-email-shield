@@ -147,13 +147,26 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
   }
 });
 
-// Handle messages from popup or content script
-browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-  if (message.type === 'GENERATE_ALIAS') {
+/**
+ * Handle runtime messages with sender boundary validation (SEC-02).
+ * Rejects messages originating from untrusted web page tabs (content scripts).
+ */
+export function handleRuntimeMessage(message, sender, sendResponse) {
+  if (sender && sender.tab) {
+    // Reject calls originating from content scripts
+    return false;
+  }
+
+  if (message && message.type === 'GENERATE_ALIAS') {
     createAndRegisterAlias(message.source || 'popup', null, message.url)
       .then(entry => sendResponse({ success: true, entry }))
       .catch(err => sendResponse({ success: false, error: err.message }));
     return true; // async reply
   }
-});
+
+  return false;
+}
+
+// Handle messages from internal extension pages (popup / options)
+browser.runtime.onMessage.addListener(handleRuntimeMessage);
 

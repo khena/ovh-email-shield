@@ -9,7 +9,7 @@
 
   <p>
     <a href="https://www.mozilla.org/firefox/"><img src="https://img.shields.io/badge/Firefox-Manifest%20V3-orange?logo=firefox" alt="Firefox MV3"></a>
-    <a href="./tests/"><img src="https://img.shields.io/badge/tests-34%20passing-brightgreen?logo=node.js" alt="Tests"></a>
+    <a href="./tests/"><img src="https://img.shields.io/badge/tests-115%20passing-brightgreen?logo=node.js" alt="Tests"></a>
     <a href="./USER_GUIDE.en.md"><img src="https://img.shields.io/badge/documentation-User%20Guide-blue" alt="User Guide"></a>
     <img src="https://img.shields.io/badge/telemetry-zero-success" alt="Zero Telemetry">
     <img src="https://img.shields.io/badge/developed%20with-Google%20Gemini-8e44ad?logo=google" alt="Developed with Google Gemini">
@@ -207,6 +207,27 @@ All code complies with the following software engineering standards:
 - **Security Auditing:** Zero telemetry, no third-party network requests, credentials stored strictly in local profile storage.
 
 Human contributions, code reviews, feature suggestions, and bug reports are warmly welcome via GitHub *Issues* and *Pull Requests*!
+
+---
+
+## 🔒 Security, Permissions & Mozilla AMO Review
+
+This extension strictly adheres to the principle of least privilege and has completed a comprehensive security audit (cryptography, IPC confinement, Shadow DOM isolation).
+
+| Permission | Scope | Technical Rationale (AMO Review) |
+|---|---|---|
+| `<all_urls>` (Content Script) | Web pages (`document_idle`) | Required to listen for `focusin` and `contextmenu` events on `<input>`, `<textarea>`, and `contenteditable` fields. Allows the context menu to identify the exact form element targeted by the user for alias autofill. |
+| `activeTab` | Active tab | Allows the popup and context menu to read the active hostname (to derive the `[site]` tag) and authorize insertion without broad permanent tab permissions. |
+| `scripting` | Active tab | Fallback injection mechanism for tabs opened prior to extension installation or reload. |
+| `storage` | Local profile (`browser.storage.local`) | Completely offline local storage for OVH API credentials and recent history. **No remote sync** via `browser.storage.sync` (zero exposure to Firefox Sync servers). |
+| `contextMenus` | Context menu | Adds the "OVH Shield: Generate & insert email alias" option on editable form fields. |
+| `clipboardWrite` | Clipboard | Copies the newly created alias immediately to the user's clipboard. |
+| `https://*.api.ovh.com/*` | OVHcloud REST API | Strictly confined to official `eu.api.ovh.com` and `ca.api.ovh.com` endpoints. Zero communication with third-party hosts. |
+
+**Confinement & Hardening :**
+- In-page notification toasts are encapsulated in a **closed Shadow DOM** (`attachShadow({ mode: 'closed' })`), rendering them inaccessible to host page scripts and DOM inspectors.
+- The background IPC router strictly rejects `GENERATE_ALIAS` messages originating from content script tabs (`sender.tab`).
+- Local storage mutations are serialized via an async mutex to eliminate race conditions under concurrent operations.
 
 ---
 

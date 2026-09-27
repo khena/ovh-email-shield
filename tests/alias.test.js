@@ -19,6 +19,38 @@ describe('Alias Generator', () => {
     assert.notEqual(s1, s2);
   });
 
+  test('generateRandomSuffix() handles zero or negative length', () => {
+    assert.equal(generateRandomSuffix(0), '');
+    assert.equal(generateRandomSuffix(-1), '');
+  });
+
+  test('generateRandomSuffix() discards biased bytes >= 248 (rejection sampling)', () => {
+    const originalGetRandomValues = crypto.getRandomValues;
+    try {
+      let callCount = 0;
+      crypto.getRandomValues = (buffer) => {
+        callCount++;
+        // First inject biased bytes (248, 255) followed by valid bytes (0 -> 'a', 1 -> 'b')
+        if (buffer.length >= 4) {
+          buffer[0] = 248; // Should be rejected (>= 248)
+          buffer[1] = 255; // Should be rejected (>= 248)
+          buffer[2] = 0;   // chars[0] -> 'a'
+          buffer[3] = 1;   // chars[1] -> 'b'
+          for (let i = 4; i < buffer.length; i++) {
+            buffer[i] = 2; // chars[2] -> 'c'
+          }
+        }
+        return buffer;
+      };
+
+      const res = generateRandomSuffix(2);
+      // Biased bytes 248 and 255 must be rejected, yielding chars[0] ('a') and chars[1] ('b')
+      assert.equal(res, 'ab');
+    } finally {
+      crypto.getRandomValues = originalGetRandomValues;
+    }
+  });
+
   test('buildAliasAddress() replaces [rand] with random suffix', () => {
     const email = buildAliasAddress('priv-[rand]', 'example.org');
     assert.match(email, /^priv-[a-z0-9]{6}@example\.org$/);

@@ -126,23 +126,42 @@ export class OvhClient {
   }
 
   /**
+   * Helper to verify if an array of redirection IDs contains one matching target fromEmail
+   * @private
+   */
+  async _matchRedirectionId(ids, targetEmail) {
+    if (!Array.isArray(ids) || ids.length === 0) return null;
+    for (const id of ids) {
+      try {
+        const details = await this.getRedirection(id);
+        if (details && typeof details.from === 'string' && details.from.toLowerCase().trim() === targetEmail) {
+          return String(id);
+        }
+      } catch {
+        continue;
+      }
+    }
+    return null;
+  }
+
+  /**
    * Search and return the redirection ID for a given alias email
    */
   async findRedirectionId(fromEmail) {
     if (!fromEmail) return null;
     await this.syncTime();
+    const targetEmail = fromEmail.toLowerCase().trim();
+
     // 1. Try filter with full address
     let ids = await this.listRedirections(fromEmail);
-    if (Array.isArray(ids) && ids.length > 0) {
-      return String(ids[0]);
-    }
+    const verifiedId = await this._matchRedirectionId(ids, targetEmail);
+    if (verifiedId) return verifiedId;
+
     // 2. Try filter with local part if fromEmail has @
     if (fromEmail.includes('@')) {
       const localPart = fromEmail.split('@')[0];
       ids = await this.listRedirections(localPart);
-      if (Array.isArray(ids) && ids.length > 0) {
-        return String(ids[0]);
-      }
+      return this._matchRedirectionId(ids, targetEmail);
     }
     return null;
   }

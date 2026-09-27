@@ -9,7 +9,7 @@
 
   <p>
     <a href="https://www.mozilla.org/firefox/"><img src="https://img.shields.io/badge/Firefox-Manifest%20V3-orange?logo=firefox" alt="Firefox MV3"></a>
-    <a href="./tests/"><img src="https://img.shields.io/badge/tests-34%20passing-brightgreen?logo=node.js" alt="Tests"></a>
+    <a href="./tests/"><img src="https://img.shields.io/badge/tests-115%20passing-brightgreen?logo=node.js" alt="Tests"></a>
     <a href="./USER_GUIDE.md"><img src="https://img.shields.io/badge/documentation-Mode%20d'emploi-blue" alt="Mode d'emploi"></a>
     <img src="https://img.shields.io/badge/télémétrie-zéro-success" alt="Zéro télémétrie">
     <img src="https://img.shields.io/badge/développé%20avec-Google%20Gemini-8e44ad?logo=google" alt="Développé avec Google Gemini">
@@ -206,6 +206,27 @@ L'ensemble du code répond aux principes d'ingénierie suivants :
 - **Audit de sécurité :** Zéro télémétrie, aucune transmission de secrets ou de données vers des serveurs tiers.
 
 Les contributions humaines, retours d'expérience, revues de code et signalements de bugs sont chaleureusement bienvenus via les *Issues* et *Pull Requests* !
+
+---
+
+## 🔒 Sécurité, Permissions & Revue Mozilla AMO
+
+Cette extension applique le principe de moindre privilège et a fait l'objet d'un audit de sécurité approfondi (chiffrage, confinement IPC, isolation Shadow DOM).
+
+| Permission | Portée | Justification technique obligatoire (Revue AMO) |
+|---|---|---|
+| `<all_urls>` (Content Script) | Pages web (`document_idle`) | Nécessaire pour écouter les événements `focusin` et `contextmenu` sur les champs `<input>`, `<textarea>` et `contenteditable`. Permet au menu contextuel de cibler avec exactitude le champ cliqué par l'utilisateur pour y injecter l'alias généré. |
+| `activeTab` | Onglet actif | Permet à la popup et au menu contextuel d'accéder à l'URL de l'onglet actif (pour dériver le tag `[site]`) et d'autoriser l'injection dans la page ciblée sans permission permanente d'accès aux onglets. |
+| `scripting` | Onglet actif | Utilisé comme mécanisme de secours pour insérer l'alias dans les onglets ouverts avant le chargement ou la mise à jour de l'extension. |
+| `storage` | Profil local (`browser.storage.local`) | Stockage local et déconnecté des identifiants API OVH et de l'historique des 50 derniers alias. **Aucune synchronisation distante** via `browser.storage.sync` (zéro fuite vers les serveurs Firefox Sync). |
+| `contextMenus` | Menu contextuel | Ajoute l'entrée « Bouclier OVH : Générer & insérer alias email » sur les champs éditables de formulaire. |
+| `clipboardWrite` | Presse-papier | Permet la copie immédiate de l'alias dans le presse-papier lors de la génération. |
+| `https://*.api.ovh.com/*` | API OVHcloud | Strictement restreint aux points de terminaison officiels `eu.api.ovh.com` et `ca.api.ovh.com`. Zéro communication vers d'autres serveurs. |
+
+**Confinement & Durcissement :**
+- Les notifications in-page (toasts) sont encapsulées dans un **Shadow DOM fermé** (`attachShadow({ mode: 'closed' })`), rendant le message d'erreur ou de confirmation totalement invisible et inaccessible aux scripts de la page visitée.
+- L'écouteur IPC d'arrière-plan rejette systématiquement les requêtes `GENERATE_ALIAS` provenant des scripts d'onglets (`sender.tab`).
+- Les accès au stockage local sont sérialisés via un verrou asynchrone pour empêcher les collisions lors d'actions concurrentes.
 
 ---
 

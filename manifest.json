@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "OVH Email Shield",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Générez des alias email aléatoires redirigés via votre compte OVHcloud pour contrer l'usurpation et le spam.",
   "browser_specific_settings": {
     "gecko": {

@@ -163,9 +163,17 @@ L'extension configure une redirection entrante : tout email reçu sur l'alias es
 
 ---
 
-## 7. Sécurité et Respect de la vie privée
+## 7. Sécurité, Permissions et Respect de la vie privée
 
-- **100 % Côté Client :** Tout le code tourne localement dans votre navigateur Firefox.
+- **100 % Côté Client :** Tout le code tourne localement dans votre navigateur Firefox (Vanilla ES Modules sans intermédiaire).
 - **Zéro Télémétrie :** Aucun pistage, aucune collecte de données, aucun appel vers des serveurs d'analyse (`data_collection_permissions: none`).
-- **Stockage Local Chiffré :** Vos clés d'API et votre historique sont uniquement conservés dans le profil local Firefox (`browser.storage.local`).
+- **Stockage Local Déconnecté :** Vos clés d'API et votre historique sont uniquement conservés dans le profil local Firefox (`browser.storage.local`). Aucune donnée n'est transmise à Mozilla Sync.
 - **Signature Cryptographique SHA-1 :** La formule de signature officielle d'OVH est calculée en mémoire locale via l'API Web Cryptography native du navigateur.
+- **Isolation DOM & CSS (Shadow DOM fermé) :** Les notifications (toasts) sont encapsulées dans un Shadow Root fermé inaccessible aux scripts de la page visitée, empêchant toute fuite d'informations ou interférence CSS.
+- **Protection Anti-collision & Mutex :** Les mutations du stockage local sont sérialisées via un verrou asynchrone pour éviter tout écrasement lors d'actions concurrentes.
+- **Justification des permissions requises :**
+  - `<all_urls>` : Permet de mémoriser le dernier champ de formulaire cliqué (`focusin` / `contextmenu`) pour y insérer l'adresse lors d'un clic droit.
+  - `activeTab` & `scripting` : Accès ponctuel à l'onglet actif lors du clic droit ou de l'ouverture de la popup pour détecter le nom du site et autoriser l'insertion.
+  - `contextMenus` : Ajout du menu contextuel sur les champs éditables.
+  - `clipboardWrite` : Copie directe de l'alias généré dans le presse-papier.
+  - `https://*.api.ovh.com/*` : Communication chiffrée HTTPS strictement limitée aux API officielles OVHcloud.

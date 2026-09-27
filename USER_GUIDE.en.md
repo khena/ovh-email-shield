@@ -163,9 +163,17 @@ The extension sets up inbound forwarding: emails sent to the alias are redirecte
 
 ---
 
-## 8. Security & Privacy Guarantees
+## 8. Security, Permissions & Privacy Guarantees
 
-- **100% Client-Side:** All logic executes locally inside your Firefox browser.
+- **100% Client-Side:** All logic executes locally inside your Firefox browser (Vanilla ES Modules without intermediaries).
 - **Zero Telemetry:** No analytics, no tracking, no calls to third-party servers (`data_collection_permissions: none`).
-- **Encrypted Local Storage:** API credentials and history stay in your local browser profile (`browser.storage.local`).
+- **Offline Local Storage:** API credentials and history stay in your local browser profile (`browser.storage.local`). No data is sent to Mozilla Sync.
 - **Native Cryptography:** The official OVH HMAC-SHA1 signature is computed in-memory using the browser's native Web Cryptography API.
+- **DOM & CSS Isolation (Closed Shadow DOM):** Notification toasts are encapsulated inside a closed Shadow Root inaccessible to host web page scripts, preventing data leaks or CSS clobbering.
+- **Race Condition Prevention & Mutex:** Storage mutations are serialized via an asynchronous promise queue to prevent write collisions under concurrent operations.
+- **Technical Rationale for Requested Permissions:**
+  - `<all_urls>`: Needed to track the last focused input field (`focusin` / `contextmenu`) so the right-click menu can insert the generated alias into the exact targeted element.
+  - `activeTab` & `scripting`: One-time access to the active tab on right-click or popup opening to derive the website name (`[site]`) and authorize form autofill.
+  - `contextMenus`: Adds the context menu entry on editable form inputs.
+  - `clipboardWrite`: Immediately copies the newly generated alias to your clipboard.
+  - `https://*.api.ovh.com/*`: Encrypted HTTPS communication strictly confined to official OVHcloud API endpoints.

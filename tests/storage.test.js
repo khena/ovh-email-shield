@@ -136,4 +136,29 @@ describe('Storage Helpers', () => {
     assert.equal(updated2.status, 'error');
     assert.equal(updated2.errorMessage, 'Quota exceeded');
   });
+
+  test('addHistoryEntry() handles concurrent asynchronous writes without dropping entries (SEC-07)', async () => {
+    const originalGet = globalThis.browser.storage.local.get;
+    const originalSet = globalThis.browser.storage.local.set;
+
+    globalThis.browser.storage.local.get = async (key) => {
+      await new Promise(resolve => setTimeout(resolve, 5));
+      return originalGet(key);
+    };
+    globalThis.browser.storage.local.set = async (items) => {
+      await new Promise(resolve => setTimeout(resolve, 5));
+      return originalSet(items);
+    };
+
+    await Promise.all([
+      addHistoryEntry({ id: 'c-1', alias: 'c1@dom.fr', destination: 'me@dom.fr' }),
+      addHistoryEntry({ id: 'c-2', alias: 'c2@dom.fr', destination: 'me@dom.fr' }),
+      addHistoryEntry({ id: 'c-3', alias: 'c3@dom.fr', destination: 'me@dom.fr' }),
+      addHistoryEntry({ id: 'c-4', alias: 'c4@dom.fr', destination: 'me@dom.fr' }),
+      addHistoryEntry({ id: 'c-5', alias: 'c5@dom.fr', destination: 'me@dom.fr' }),
+    ]);
+
+    const history = await getHistory();
+    assert.equal(history.length, 5, 'All concurrent entries must be preserved');
+  });
 });
