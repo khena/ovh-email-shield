@@ -12,6 +12,14 @@ permissions:
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
+    env:
+      AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
+      AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+      CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+      CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+      CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+      CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+      CHROME_PUBLISHER_ID: ${{ secrets.CHROME_PUBLISHER_ID }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -42,9 +50,6 @@ jobs:
 
       - name: Deploy to Mozilla Add-ons (AMO)
         if: env.AMO_JWT_ISSUER != '' && env.AMO_JWT_SECRET != ''
-        env:
-          AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
-          AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
         run: |
           npx web-ext sign \
             --source-dir dist/firefox \
@@ -54,16 +59,12 @@ jobs:
             --api-secret "$AMO_JWT_SECRET"
 
       - name: Deploy to Chrome Web Store
-        if: env.CHROME_EXTENSION_ID != '' && env.CHROME_CLIENT_ID != '' && env.CHROME_CLIENT_SECRET != '' && env.CHROME_REFRESH_TOKEN != ''
-        uses: fregante/chrome-webstore-upload@v4
-        env:
-          CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
-          CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
-          CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
-          CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+        if: env.CHROME_EXTENSION_ID != '' && env.CHROME_CLIENT_ID != '' && env.CHROME_CLIENT_SECRET != '' && env.CHROME_REFRESH_TOKEN != '' && env.CHROME_PUBLISHER_ID != ''
+        uses: mnao305/chrome-extension-upload@v7.0.0
         with:
           extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          publisher-id: ${{ secrets.CHROME_PUBLISHER_ID }}
           file-path: dist/ovh-email-shield-chrome.zip
