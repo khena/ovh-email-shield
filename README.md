@@ -10,7 +10,7 @@
   <p>
     <a href="https://addons.mozilla.org/addon/ovh-email-shield/"><img src="https://img.shields.io/badge/Firefox_Add--ons-Installer-orange?logo=firefox-browser" alt="Installer sur Firefox"></a>
     <a href="https://chromewebstore.google.com/detail/ovh-email-shield/mceniipefgoijaplocajlmihcpecaldg"><img src="https://img.shields.io/badge/Chrome_Web_Store-Installer-blue?logo=google-chrome" alt="Installer sur Chrome"></a>
-    <a href="./tests/"><img src="https://img.shields.io/badge/tests-125%20passing-brightgreen?logo=node.js" alt="Tests"></a>
+    <a href="./tests/"><img src="https://img.shields.io/badge/tests-60%20passing-brightgreen?logo=node.js" alt="Tests"></a>
     <a href="./USER_GUIDE.md"><img src="https://img.shields.io/badge/documentation-Mode%20d'emploi-blue" alt="Mode d'emploi"></a>
     <img src="https://img.shields.io/badge/télémétrie-zéro-success" alt="Zéro télémétrie">
     <img src="https://img.shields.io/badge/développé%20avec-Google%20Gemini-8e44ad?logo=google" alt="Développé avec Google Gemini">
@@ -104,7 +104,7 @@ npm install
 # 2. Lancer Firefox avec rechargement automatique (hot-reload)
 npm start
 
-# 3. Lancer la suite de tests unitaires (125 tests natifs)
+# 3. Lancer la suite de tests unitaires (60 tests natifs)
 npm test
 
 # 4. Vérifier la conformité du code et du manifest
