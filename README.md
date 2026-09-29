@@ -8,8 +8,8 @@
   </p>
 
   <p>
-    <a href="https://www.mozilla.org/firefox/"><img src="https://img.shields.io/badge/Firefox-Manifest%20V3-orange?logo=firefox" alt="Firefox MV3"></a>
-    <a href="https://www.google.com/chrome/"><img src="https://img.shields.io/badge/Chrome-Manifest%20V3-blue?logo=googlechrome" alt="Chrome MV3"></a>
+    <a href="https://addons.mozilla.org/addon/ovh-email-shield/"><img src="https://img.shields.io/badge/Firefox_Add--ons-Installer-orange?logo=firefox-browser" alt="Installer sur Firefox"></a>
+    <a href="https://chromewebstore.google.com/detail/ovh-email-shield/mceniipefgoijaplocajlmihcpecaldg"><img src="https://img.shields.io/badge/Chrome_Web_Store-Installer-blue?logo=google-chrome" alt="Installer sur Chrome"></a>
     <a href="./tests/"><img src="https://img.shields.io/badge/tests-125%20passing-brightgreen?logo=node.js" alt="Tests"></a>
     <a href="./USER_GUIDE.md"><img src="https://img.shields.io/badge/documentation-Mode%20d'emploi-blue" alt="Mode d'emploi"></a>
     <img src="https://img.shields.io/badge/télémétrie-zéro-success" alt="Zéro télémétrie">
@@ -71,7 +71,20 @@ Pour un tutoriel détaillé étape par étape (création des clés API sur OVH, 
 
 ## 🚀 Installation & Utilisation
 
-### Option A : Charger temporairement dans Firefox (sans installation globale)
+### 🛒 Installation officielle (Recommandée)
+
+Installez directement l'extension validée depuis le store officiel de votre navigateur :
+
+| Navigateur | Installation directe |
+|---|---|
+| **Mozilla Firefox** | [![Installer sur Firefox](https://img.shields.io/badge/Firefox_Add--ons-Installer-orange?logo=firefox-browser)](https://addons.mozilla.org/addon/ovh-email-shield/) |
+| **Google Chrome / Chromium** (Brave, Edge, Vivaldi, Opera) | [![Installer sur Chrome](https://img.shields.io/badge/Chrome_Web_Store-Installer-blue?logo=google-chrome)](https://chromewebstore.google.com/detail/ovh-email-shield/mceniipefgoijaplocajlmihcpecaldg) |
+
+---
+
+### 🛠️ Installation manuelle ou développeur (depuis les sources)
+
+#### Option A : Charger temporairement dans Firefox (sans installation globale)
 1. Téléchargez ou clonez ce dépôt :
    ```bash
    git clone https://github.com/khena/ovh-email-shield.git
@@ -82,7 +95,7 @@ Pour un tutoriel détaillé étape par étape (création des clés API sur OVH, 
 4. Sélectionnez le fichier `manifest.json` à la racine du projet.
 5. L'icône de bouclier apparaît dans votre barre d'outils !
 
-### Option B : Environnement Développeur
+#### Option B : Environnement Développeur
 
 ```bash
 # 1. Cloner et installer les dépendances
@@ -91,7 +104,7 @@ npm install
 # 2. Lancer Firefox avec rechargement automatique (hot-reload)
 npm start
 
-# 3. Lancer la suite de tests unitaires (34 tests natifs)
+# 3. Lancer la suite de tests unitaires (125 tests natifs)
 npm test
 
 # 4. Vérifier la conformité du code et du manifest
@@ -141,9 +154,11 @@ L'extension applique le principe du moindre privilège :
 
 ---
 
-## 🚀 Installation & Build Multi-Navigateurs
+## 🚀 Build Multi-Navigateurs & Installation manuelle
 
 L'extension supporte nativement **Mozilla Firefox** et **Google Chrome / Chromium** (Brave, Edge, Opera, etc.) depuis une base de code unique.
+
+Pour installer via les stores officiels, privilégiez [Firefox Add-ons](https://addons.mozilla.org/addon/ovh-email-shield/) ou le [Chrome Web Store](https://chromewebstore.google.com/detail/ovh-email-shield/mceniipefgoijaplocajlmihcpecaldg). Pour un usage développeur ou hors-store :
 
 ### 1. Construire les paquets
 ```bash

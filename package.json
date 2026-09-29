@@ -1,6 +1,6 @@
 {
   "name": "ovh-email-shield",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "type": "module",
   "description": "Cross-browser WebExtension (Firefox & Chrome) to generate disposable email aliases using OVH API",
   "homepage": "https://github.com/khena/ovh-email-shield",

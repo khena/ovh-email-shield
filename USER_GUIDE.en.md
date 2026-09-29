@@ -98,6 +98,18 @@ For security, never use your main OVH account password. The extension uses scope
 
 ### Step 1: Install the extension in your browser
 
+#### Option 1: Official Installation from Stores (Recommended)
+
+- **For Mozilla Firefox:**
+  1. Visit the official [Firefox Add-ons (AMO) - OVH Email Shield](https://addons.mozilla.org/addon/ovh-email-shield/) page.
+  2. Click **"Add to Firefox"** and confirm installation.
+
+- **For Google Chrome & Chromium-based browsers (Brave, Edge, Vivaldi, Opera):**
+  1. Visit the official [Chrome Web Store - OVH Email Shield](https://chromewebstore.google.com/detail/ovh-email-shield/mceniipefgoijaplocajlmihcpecaldg) listing.
+  2. Click **"Add to Chrome"** and confirm installation.
+
+#### Option 2: Manual / Developer Installation (from source)
+
 - **For Mozilla Firefox:**
   1. Open `about:debugging#/runtime/this-firefox`.
   2. Click **"Load Temporary Add-on..."**.

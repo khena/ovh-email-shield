@@ -98,6 +98,18 @@ Pour des raisons de sécurité évidentes, ne renseignez jamais le mot de passe 
 
 ### Étape 1 : Installer l'extension dans votre navigateur
 
+#### Option 1 : Installation officielle depuis les stores (Recommandée)
+
+- **Pour Mozilla Firefox :**
+  1. Rendez-vous sur la page officielle [Firefox Add-ons (AMO) - OVH Email Shield](https://addons.mozilla.org/addon/ovh-email-shield/).
+  2. Cliquez sur **« Ajouter à Firefox »** puis confirmez l'ajout.
+
+- **Pour Google Chrome & navigateurs Chromium (Brave, Edge, Vivaldi, Opera) :**
+  1. Rendez-vous sur la fiche officielle [Chrome Web Store - OVH Email Shield](https://chromewebstore.google.com/detail/ovh-email-shield/mceniipefgoijaplocajlmihcpecaldg).
+  2. Cliquez sur **« Ajouter à Chrome »** puis confirmez l'installation.
+
+#### Option 2 : Installation manuelle / développeur (depuis les sources)
+
 - **Pour Mozilla Firefox :**
   1. Ouvrez `about:debugging#/runtime/this-firefox`.
   2. Cliquez sur **« Charger un module temporaire... »**.
