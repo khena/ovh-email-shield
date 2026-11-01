@@ -5,21 +5,25 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      target:
+        description: 'Store deployment target'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - firefox
+          - chrome
+          - none
 
 permissions:
   contents: write
 
 jobs:
   build-and-release:
+    name: Build & GitHub Release
     runs-on: ubuntu-latest
-    env:
-      AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
-      AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
-      CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
-      CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
-      CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
-      CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
-      CHROME_PUBLISHER_ID: ${{ secrets.CHROME_PUBLISHER_ID }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -43,12 +47,54 @@ jobs:
         run: npm run build
 
       - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v') || github.ref_type == 'tag'
         uses: softprops/action-gh-release@v2
         with:
           files: dist/*.zip
           generate_release_notes: true
 
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-dist
+          path: dist/
+          retention-days: 2
+
+  deploy-firefox:
+    name: Deploy to Mozilla Add-ons (AMO)
+    needs: build-and-release
+    runs-on: ubuntu-latest
+    if: |
+      always() &&
+      needs.build-and-release.result == 'success' &&
+      (github.event_name == 'push' || inputs.target == 'all' || inputs.target == 'firefox' || github.event.inputs.target == 'all' || github.event.inputs.target == 'firefox')
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: extension-dist
+          path: dist
+
+      - name: Check AMO secrets availability
+        env:
+          AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
+          AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+        if: env.AMO_JWT_ISSUER == '' || env.AMO_JWT_SECRET == ''
+        run: echo "::warning::AMO credentials are missing (AMO_JWT_ISSUER or AMO_JWT_SECRET). Skipping Firefox deployment."
+
       - name: Deploy to Mozilla Add-ons (AMO)
+        env:
+          AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
+          AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
         if: env.AMO_JWT_ISSUER != '' && env.AMO_JWT_SECRET != ''
         run: |
           npx web-ext sign \
@@ -58,7 +104,38 @@ jobs:
             --api-key "$AMO_JWT_ISSUER" \
             --api-secret "$AMO_JWT_SECRET"
 
+  deploy-chrome:
+    name: Deploy to Chrome Web Store
+    needs: build-and-release
+    runs-on: ubuntu-latest
+    if: |
+      always() &&
+      needs.build-and-release.result == 'success' &&
+      (github.event_name == 'push' || inputs.target == 'all' || inputs.target == 'chrome' || github.event.inputs.target == 'all' || github.event.inputs.target == 'chrome')
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: extension-dist
+          path: dist
+
+      - name: Check Chrome secrets availability
+        env:
+          CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+          CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+          CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+          CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          CHROME_PUBLISHER_ID: ${{ secrets.CHROME_PUBLISHER_ID }}
+        if: env.CHROME_EXTENSION_ID == '' || env.CHROME_CLIENT_ID == '' || env.CHROME_CLIENT_SECRET == '' || env.CHROME_REFRESH_TOKEN == '' || env.CHROME_PUBLISHER_ID == ''
+        run: echo "::warning::Chrome Web Store credentials are missing or incomplete. Skipping Chrome deployment."
+
       - name: Deploy to Chrome Web Store
+        env:
+          CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+          CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+          CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+          CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          CHROME_PUBLISHER_ID: ${{ secrets.CHROME_PUBLISHER_ID }}
         if: env.CHROME_EXTENSION_ID != '' && env.CHROME_CLIENT_ID != '' && env.CHROME_CLIENT_SECRET != '' && env.CHROME_REFRESH_TOKEN != '' && env.CHROME_PUBLISHER_ID != ''
         uses: mnao305/chrome-extension-upload@v7.0.0
         with:
