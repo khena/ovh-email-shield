@@ -314,8 +314,16 @@
     "description": "Étape 2 du guide"
   },
   "guideStep3": {
-    "message": "Ajoutez les droits REST minimaux suivants :",
+    "message": "Ajoutez les droits REST nécessaires :",
     "description": "Étape 3 du guide de création de clés"
+  },
+  "guideStep3Recommended": {
+    "message": "Recommandé (remplacez <domain> par votre domaine) :",
+    "description": "Indication pour les droits restreints par domaine"
+  },
+  "guideStep3AlternativePrefix": {
+    "message": "Alternative multi-domaines (plus souple) :",
+    "description": "Préfixe pour l'alternative multi-domaines"
   },
   "guideStep4": {
     "message": "Validez et copiez l'Application Key, l'Application Secret et la Consumer Key.",

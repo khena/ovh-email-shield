@@ -62,7 +62,7 @@ Pour faire fonctionner l'extension, vous devez disposer de :
 
 ---
 
-## 3. Générer vos clés API OVH (Pas-à-pas)
+## 4. Générer vos clés API OVH (Pas-à-pas)
 
 Pour des raisons de sécurité évidentes, ne renseignez jamais le mot de passe de votre compte OVH principal. L'extension utilise des jetons d'accès REST à privilèges réduits.
 
@@ -74,17 +74,30 @@ Pour des raisons de sécurité évidentes, ne renseignez jamais le mot de passe 
    - **Application name :** `OVH Email Shield`
    - **Application description :** `Génération d'alias et redirections email pour navigateur web`
    - **Validity :** Choisissez `Unlimited` pour ne pas avoir à renouveler les clés, ou la durée de votre choix.
-4. **Définissez les droits d'accès minimaux (Rights) :**
-   Cliquez sur le bouton pour ajouter 4 lignes :
+4. **Définissez les droits d'accès (Rights) :**
+   Deux approches sont possibles selon vos priorités de sécurité :
+
+   #### Option A : Droits restreints par domaine (Recommandée — Moindre privilège)
+   Cette méthode limite strictement les droits de l'extension au seul domaine configuré (ex. `mondomaine.fr`). Même en cas d'accès non autorisé à vos clés locales, **aucun autre domaine ou service de votre compte OVH ne pourra être consulté, altéré ou supprimé**.
+
+   | Méthode (Method) | URI *(remplacez `mondomaine.fr` par votre domaine)* | Description |
+   |---|---|---|
+   | `GET` | `/auth/*` | Vérification de la connexion et synchronisation de l'heure |
+   | `GET` | `/email/domain/mondomaine.fr/*` | Consultation des redirections de ce domaine |
+   | `POST` | `/email/domain/mondomaine.fr/*` | Création de redirections sur ce domaine |
+   | `DELETE` | `/email/domain/mondomaine.fr/*` | Suppression des redirections de ce domaine |
+
+   > 💡 **À savoir :** Si vous changez de nom de domaine dans l'extension ultérieurement, vous devrez générer un nouveau jeu de clés OVH pour ce nouveau domaine.
+
+   #### Option B : Droits multi-domaines (Alternative — Plus souple)
+   Si vous n'avez qu'un seul domaine sur votre compte OVH, ou si vous souhaitez pouvoir basculer entre plusieurs domaines dans l'extension sans devoir régénérer de clés API :
 
    | Méthode (Method) | URI | Description |
    |---|---|---|
    | `GET` | `/auth/*` | Vérification de la connexion et synchronisation de l'heure |
-   | `GET` | `/email/domain/*` | Consultation des redirections existantes |
-   | `POST` | `/email/domain/*` | Création de nouvelles redirections d'alias |
-   | `DELETE` | `/email/domain/*` | Suppression des redirections |
-
-   *(Optionnel de sécurité supplémentaire : remplacez `*` par votre nom de domaine exact, par exemple `/email/domain/mondomaine.fr/*`)*.
+   | `GET` | `/email/domain/*` | Consultation des redirections de tous vos domaines |
+   | `POST` | `/email/domain/*` | Création de redirections sur tous vos domaines |
+   | `DELETE` | `/email/domain/*` | Suppression de redirections sur tous vos domaines |
 
 5. Cliquez sur **Generate token** / **Créer les clés**.
 6. **IMPORTANT :** Conservez la page ouverte ou copiez immédiatement les trois valeurs affichées :
@@ -184,7 +197,9 @@ Les requêtes OVH nécessitent un horodatage précis. L'extension synchronise au
 - Assurez-vous que l'heure de votre système d'exploitation n'a pas plusieurs minutes d'écart avec l'heure réelle.
 
 ### Erreur : « 403 / This credential is not allowed to access... »
-Le token créé sur OVH ne dispose pas des droits suffisants. Retournez sur la section [3. Générer vos clés API](#3-générer-vos-clés-api-ovh-pas-à-pas) et vérifiez que vous avez bien autorisé les méthodes `GET`, `POST` et `DELETE` sur `/email/domain/*`.
+Le token créé sur OVH ne dispose pas des droits suffisants pour exécuter l'action demandée :
+- Si vous avez choisi des **droits restreints (Option A)**, vérifiez que le domaine renseigné dans l'extension correspond exactement au domaine autorisé dans le token OVH (ex : `/email/domain/mondomaine.fr/*`). Si vous utilisez un autre domaine, créez un token pour ce nouveau domaine ou optez pour les droits génériques `/email/domain/*`.
+- Vérifiez que vous avez bien autorisé les 3 méthodes `GET`, `POST` et `DELETE` sur la ressource email, ainsi que `GET` sur `/auth/*`. Retournez sur la section [4. Générer vos clés API](#4-générer-vos-clés-api-ovh-pas-à-pas) si nécessaire.
 
 ### Puis-je répondre à un email reçu sur un alias ?
 L'extension configure une redirection entrante : tout email reçu sur l'alias est transféré vers votre adresse réelle. Si vous cliquez sur « Répondre » depuis votre boîte mail, votre client de messagerie utilisera par défaut votre adresse principale. Pour répondre anonymement, il est nécessaire de configurer une identité d'expéditeur (alias d'envoi) dans votre client de messagerie supportant le domaine.

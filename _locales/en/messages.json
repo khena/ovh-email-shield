@@ -314,8 +314,16 @@
     "description": "Step 2 prefix"
   },
   "guideStep3": {
-    "message": "Add the following minimal REST permissions:",
+    "message": "Add the required REST permissions:",
     "description": "Step 3 of guide"
+  },
+  "guideStep3Recommended": {
+    "message": "Recommended (replace <domain> with your domain):",
+    "description": "Notice for domain-restricted permissions"
+  },
+  "guideStep3AlternativePrefix": {
+    "message": "Multi-domain alternative (more flexible):",
+    "description": "Prefix for multi-domain alternative"
   },
   "guideStep4": {
     "message": "Validate and copy the Application Key, Application Secret, and Consumer Key.",

@@ -202,6 +202,21 @@ button {
   color: #38ef7d;
 }
 
+.guide-subtext {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.guide-subtext code {
+  color: #38ef7d;
+  background-color: #0b0f19;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 11px;
+}
+
 .security-note {
   background-color: rgba(0, 80, 215, 0.1);
   border: 1px solid rgba(0, 80, 215, 0.3);

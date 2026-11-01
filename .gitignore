@@ -7,4 +7,5 @@ conductor/
 *.log
 GEMINI.md
 .agents/
+.gemini/
 skills-lock.json

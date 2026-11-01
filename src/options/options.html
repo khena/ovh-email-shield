@@ -102,11 +102,15 @@
             <span data-i18n="guideStep2Prefix">Définissez un nom d'application (ex :</span> <code>OVH-Email-Shield</code>).
           </li>
           <li>
-            <span data-i18n="guideStep3">Ajoutez les droits REST minimaux suivants :</span>
+            <span data-i18n="guideStep3">Ajoutez les droits REST nécessaires :</span>
+            <div class="guide-subtext" data-i18n="guideStep3Recommended">Recommandé (remplacez &lt;domain&gt; par votre domaine) :</div>
             <pre class="code-block">GET  /auth/*
-GET  /email/domain/*
-POST /email/domain/*
-DELETE /email/domain/*</pre>
+GET  /email/domain/&lt;domain&gt;/*
+POST /email/domain/&lt;domain&gt;/*
+DELETE /email/domain/&lt;domain&gt;/*</pre>
+            <div class="guide-subtext">
+              <span data-i18n="guideStep3AlternativePrefix">Alternative multi-domaines (plus souple) :</span> <code>/email/domain/*</code>
+            </div>
           </li>
           <li>
             <span data-i18n="guideStep4">Validez et copiez l'Application Key, l'Application Secret et la Consumer Key.</span>

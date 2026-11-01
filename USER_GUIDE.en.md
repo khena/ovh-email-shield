@@ -74,17 +74,30 @@ For security, never use your main OVH account password. The extension uses scope
    - **Application name:** `OVH Email Shield`
    - **Application description:** `Email alias generator and forwarding tool for web browsers`
    - **Validity:** Select `Unlimited` so keys do not expire, or your desired duration.
-4. **Define Minimal Access Rights:**
-   Click to add the following 4 rules:
+4. **Define Access Rights (Rights):**
+   Two approaches are available depending on your security preferences:
+
+   #### Option A: Domain-restricted rights (Recommended — Least Privilege)
+   This approach strictly limits the extension's access to your configured domain only (e.g., `yourdomain.com`). Even in the unlikely event that your local credentials are leaked, **no other domain or service on your OVH account can be viewed, modified, or deleted**.
+
+   | Method | URI *(replace `yourdomain.com` with your actual domain)* | Description |
+   |---|---|---|
+   | `GET` | `/auth/*` | Connection validation and server time sync |
+   | `GET` | `/email/domain/yourdomain.com/*` | Read redirections on this domain only |
+   | `POST` | `/email/domain/yourdomain.com/*` | Create redirections on this domain only |
+   | `DELETE` | `/email/domain/yourdomain.com/*` | Delete redirections on this domain only |
+
+   > 💡 **Note:** If you switch target domains in the extension settings in the future, you will need to generate a new set of API keys for that new domain.
+
+   #### Option B: Multi-domain rights (Alternative — More flexible)
+   If your OVH account only hosts a single domain, or if you plan to switch between domains in the extension without re-generating API tokens:
 
    | Method | URI | Description |
    |---|---|---|
    | `GET` | `/auth/*` | Connection validation and server time sync |
-   | `GET` | `/email/domain/*` | Read existing redirections |
-   | `POST` | `/email/domain/*` | Create new email redirections |
-   | `DELETE` | `/email/domain/*` | Delete/revoke redirections |
-
-   *(Optional security restriction: you can replace `*` with your exact domain name, for example `/email/domain/yourdomain.com/*`)*.
+   | `GET` | `/email/domain/*` | Read redirections across all domains |
+   | `POST` | `/email/domain/*` | Create redirections across all domains |
+   | `DELETE` | `/email/domain/*` | Delete redirections across all domains |
 
 5. Click on **Generate token**.
 6. **IMPORTANT:** Keep the page open or copy the three generated credentials immediately:
@@ -184,7 +197,9 @@ OVH API requests require accurate timestamps. The extension automatically calcul
 - Ensure your computer's system clock is synchronized with internet time.
 
 ### Error: "403 / This credential is not allowed to access..."
-The token created on OVH does not have adequate permissions. Review section [4. Generating your OVH API Keys](#4-generating-your-ovh-api-keys-step-by-step) and confirm that `GET`, `POST`, and `DELETE` methods are allowed for `/email/domain/*`.
+The token created on OVH does not have adequate permissions to perform the requested operation:
+- If you configured **domain-restricted rights (Option A)**, verify that the domain configured in the extension matches the domain allowed in the API token (e.g., `/email/domain/yourdomain.com/*`). If you are targeting a different domain, generate an API token for that domain or use generic rights `/email/domain/*`.
+- Confirm that `GET`, `POST`, and `DELETE` methods are allowed on your email domain resource, as well as `GET` on `/auth/*`. Review section [4. Generating your OVH API Keys](#4-generating-your-ovh-api-keys-step-by-step) if necessary.
 
 ### Can I reply to an email received on an alias?
 The extension sets up inbound forwarding: emails sent to the alias are redirected to your real inbox. Clicking "Reply" in your email client will use your default sender address. To reply anonymously, configure an outbound sender identity (alias) in your email client that supports your domain.
